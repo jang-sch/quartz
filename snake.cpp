@@ -224,7 +224,7 @@ public:
 	void setTitle() {
 		//Set the window title bar.
 		XMapWindow(dpy, win);
-		XStoreName(dpy, win, "snake");
+		XStoreName(dpy, win, "Get Off My Lawn");
 	}
 	void setupScreenRes(const int w, const int h) {
 		g.xres = w;
@@ -781,6 +781,7 @@ void render(void)
 {
 	int i,j;
 	Rect r;
+
 	//--------------------------------------------------------
 	//This code is repeated several times in this program, so
 	//it can be made more generic and cleaner with some work.
@@ -929,10 +930,16 @@ void render(void)
 	glEnd();
 	//
 	//
-	r.left   = g.xres/2;
-	r.bot    = g.yres-100;
-	r.center = 1;
-	ggprint16(&r, 16, 0x00ffffff, "Snake");
+	//r.left   = g.xres/2;
+	//r.bot    = g.yres-100;
+	//r.center = 1;
+	//TS: 2020-07-01 - changed the title of game and allowed to showe
+	//user the number of items collected
+	r.bot = g.yres - 20;
+	r.left = 10;
+	r.center = 0;
+	ggprint8b(&r, 16, 0x00ffffff, "Get Off My Lawn");
+	ggprint8b(&r, 16, 0x00ffffff, "number of items collected:");
 }
 
 
