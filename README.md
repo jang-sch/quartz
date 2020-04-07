@@ -1,4 +1,4 @@
-# quartz
+# quartzzz
 
 ## GET OFF MY LAWN - 3350 project
 2D scavenger hunt game
