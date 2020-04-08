@@ -18,3 +18,8 @@ When introduced snake framework:
 sudo apt-get install libopenal-dev
 
 sudo apt-get install libalut-dev
+
+sudo apt install libglu1-mesa-dev
+
+sudo apt-get install git curl libsdl2-mixer-2.0-0 libsdl2-image-2.0-0 libsdl2-2.0-0
+
