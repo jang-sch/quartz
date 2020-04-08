@@ -167,8 +167,14 @@ struct Global {
 	//TS: added a count function for the items collected
     //JG: 2020-04-07 - changed variable name for clarity
 	int collCount = 0;
-    //JG: 2020-04-07 - added variable to keep score
-    int totalScore = 0;
+    //JG: 2020-04-07 - added variableS to calculate and keep score
+    const int COMMON_I = 5;
+	const int UNCOMMON_I = 10;
+	const int RARE_I = 20;
+	const int EPIC_I = 40;
+	const int LEGENDARY_I = 80;
+	int totalScore = 0;
+	//
 	Image *marbleImage;
 	GLuint marbleTexture;
 	Button button[MAXBUTTONS];
@@ -181,8 +187,8 @@ struct Global {
         xres = 900;
 		yres = 900;
         // gridDim aka grid dimension
-		// JG: adjusted gridDim size 
-        gridDim = 40;
+		// JG: 2020-04-07 - adjusted size of grid to be playable area 
+        gridDim = 72;
 		gameover = 0;
 		winner = 0;
 		nbuttons = 0;
@@ -472,6 +478,7 @@ void initOpengl(void)
 	             0, GL_RGB, GL_UNSIGNED_BYTE, g.marbleImage->data);
 }
 
+// JG: 2020-04-07 - changed starting position of snake
 void initSnake()
 {
 	int i;
@@ -479,22 +486,23 @@ void initSnake()
 	g.snake.delay = .15;
 	g.snake.length = rand() % 4 + 3;
 	for (i=0; i<g.snake.length; i++) {
-		g.snake.pos[i][0] = 2;
-		g.snake.pos[i][1] = 2;
+		g.snake.pos[i][0] = 1;
+		g.snake.pos[i][1] = 10;
 	}
 	g.snake.direction = DIRECTION_RIGHT;
 	//snake.timer = glfwGetTime() + 0.5;
 }
-
+// JG: 2020-04-07 - changed starting position of rat
 void initRat()
 {
 	g.rat.status = 1;
 	g.rat.pos[0] = 25;
-	g.rat.pos[1] = 2;
+	g.rat.pos[1] = 10;
 }
 
 void init()
 {
+	// JG: why * 10?
 	g.boardDim = g.gridDim * 10; 
 	//
 	initSnake();
@@ -503,9 +511,9 @@ void init()
 	//initialize buttons...
 	g.nbuttons=0;
 	//size and position
-	g.button[g.nbuttons].r.width = 140;
+	g.button[g.nbuttons].r.width = 100;
 	g.button[g.nbuttons].r.height = 60;
-	g.button[g.nbuttons].r.left = 20;
+	g.button[g.nbuttons].r.left = 10;
 	g.button[g.nbuttons].r.bot = 320;
 	g.button[g.nbuttons].r.right =
 	   g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
@@ -526,9 +534,9 @@ void init()
 	g.button[g.nbuttons].dcolor[2] = g.button[g.nbuttons].color[2] * 0.5f;
 	g.button[g.nbuttons].text_color = 0x00ffffff;
 	g.nbuttons++;
-	g.button[g.nbuttons].r.width = 140;
+	g.button[g.nbuttons].r.width = 100;
 	g.button[g.nbuttons].r.height = 60;
-	g.button[g.nbuttons].r.left = 20;
+	g.button[g.nbuttons].r.left = 10;
 	g.button[g.nbuttons].r.bot = 160;
 	g.button[g.nbuttons].r.right =
 	   g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
@@ -763,8 +771,27 @@ void physics(void)
 		                                g.snake.length,g.snake.direction);
 		
         // JG: 2020-04-07 - when treasure collected, it follows you now (?)
-        // changed it to add length by 2 to accomodate for space.
+        // changed it to add length by 2 to accomodate for space. Also
+		// set up PSEUDOCODE for item scoring based on rarity of item.
         int addlength = 2;
+
+		/* JG: 2020-04-07 - pseudocode
+		if (itemrarity == 1)
+			totalscore += common
+		else if (itemrarity == 2)
+			totalscore += uncommon
+		else if (itemrarity == 2)
+			totalscore += rare
+		else if (itemrarity == 2)
+			totalscore += epic
+		else if (itemrarity == 2)
+			totalscore += legendray
+		else
+			thers some sort of error, consider what happens when snake
+			eats itself.
+		*/
+
+
 		//TS: 2020-07-04 added a counter to count when
 		//the snake collects the item
         // JG: 2020-04-07 - worked with TS to make collected item counter 
@@ -825,7 +852,8 @@ void render(void)
 	glOrtho(0, g.xres, 0, g.yres, -1, 1);
 	//
 	//screen background
-	glColor3f(0.5f, 0.5f, 0.5f);
+	// JG: 2020-07-04 - modified values in glColor3f() to remove dim effect
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glBindTexture(GL_TEXTURE_2D, g.marbleTexture);
 	glBegin(GL_QUADS);
 		glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
@@ -833,7 +861,7 @@ void render(void)
 		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, g.yres);
 		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, 0);
 	glEnd();
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0); // WAHT DOES THIS MEAN?
 	//
 	//draw all buttons
 	for (i=0; i<g.nbuttons; i++) {
@@ -872,6 +900,9 @@ void render(void)
 		}
 	}
 	//draw the main game board in middle of screen
+	
+	// JG: 2020-04-07 - removed board that was occluding background
+	/*
 	glColor3f(0.6f, 0.5f, 0.2f);
 	glBegin(GL_QUADS);
 		glVertex2i(s0-b2, s1-b2);
@@ -879,14 +910,19 @@ void render(void)
 		glVertex2i(s0+b2, s1+b2);
 		glVertex2i(s0+b2, s1-b2);
 	glEnd();
-    
+    */
+
 	//
 	//grid lines...
 	int x0 = s0-b2;
 	int x1 = s0+b2;
 	int y0 = s1-b2;
 	int y1 = s1+b2;
-	glColor3f(0.1f, 0.1f, 0.1f);
+	// JG: 2020-04-07 - changed gridline color, to remove by end but the lines
+	// are being kept for the moment to help with positioning/object spawns.
+	// Quartz color is glColor3f(0.85f, 0.85f, 0.95f);
+	//glColor3f(0.658824f, 0.658824f, 0.658824f);
+	glColor3f(0.13f, 0.37f, 0.31f);
 	glBegin(GL_LINES);
 	for (i=1; i<g.gridDim; i++) {
 		y0 += 10;
@@ -942,7 +978,8 @@ void render(void)
 	//
 	//draw rat...
 	getGridCenter(g.rat.pos[1],g.rat.pos[0],cent);
-	glColor3f(0.1, 0.1f, 0.0f);
+	// JG: 2020-04-07 - rat colors to be treasures
+	glColor3f(1.0, 0.43f, 0.78f);
 	glBegin(GL_QUADS);
 	glVertex2i(cent[0]-4, cent[1]-3);
 	glVertex2i(cent[0]-4, cent[1]+4);
@@ -956,12 +993,13 @@ void render(void)
 	//r.center = 1;
 	//TS: 2020-07-04 - changed the title of game and allowed to showe
 	//user the number of items collected, and the number of points
+	// JG: 2020-04-07 - added scorekeeping, depends on item rarity; font color
 	r.bot = g.yres - 20;
 	r.left = 10;
 	r.center = 0;
-	ggprint8b(&r, 16, 0x00ffffff, "Get Off My Lawn");
-	ggprint8b(&r, 16, 0x00ffffff, "Number of items collected: %i", g.collCount);
-        ggprint8b(&r, 16, 0x00ffffff, "Points: %i", g.totalScore);
+	ggprint8b(&r, 16, 0x00006600, "Get Off My Lawn");
+	ggprint8b(&r, 16, 0x00006600, "Number of items collected: %i", g.collCount);
+    ggprint8b(&r, 16, 0x00006600, "Points: %i", g.totalScore);
 }
 
 
