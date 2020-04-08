@@ -100,7 +100,9 @@ class Image {
 public:
 	int width, height;
 	unsigned char *data;
-	~Image() { delete [] data; }
+	// This is a destructor JG
+    ~Image() { delete [] data; }
+    // This is a constructor JG
 	Image(const char *fname) {
 		if (fname[0] == '\0')
 			return;
@@ -149,8 +151,8 @@ public:
 			unlink(ppmname);
 	}
 };
-//Image img[1] = {"./images/marble.gif" };
 
+// JG: 2020-04-06 - changed background image to be our game map.
 Image img[1] = {"./images/Game_Map.png" };
 
 struct Global {
@@ -163,7 +165,10 @@ struct Global {
 	int gameover;
 	int winner;
 	//TS: added a count function for the items collected
-	int count = 0;
+    //JG: 2020-04-07 - changed variable name for clarity
+	int collCount = 0;
+    //JG: 2020-04-07 - added variable to keep score
+    int totalScore = 0;
 	Image *marbleImage;
 	GLuint marbleTexture;
 	Button button[MAXBUTTONS];
@@ -172,9 +177,12 @@ struct Global {
 	ALuint alBufferDrip, alBufferTick;
 	ALuint alSourceDrip, alSourceTick;
 	Global() {
-		xres = 800;
-		yres = 600;
-		gridDim = 40;
+		// JG: 2020-04-07 - changed window start size
+        xres = 900;
+		yres = 900;
+        // gridDim aka grid dimension
+		// JG: adjusted gridDim size 
+        gridDim = 40;
 		gameover = 0;
 		winner = 0;
 		nbuttons = 0;
@@ -720,9 +728,11 @@ void physics(void)
 		g.gameover=1;
 		return;
 	}
-
+    
+    // JG: 2020-4-6 - removed game over when snake crosses itself. Will 
+    // revisit this later to see if can be a part of game elsewhere.
 	//check for snake crossing itself...
-	/*for (i=1; i<g.snake.length; i++) {
+	/*for (-i=1; i<g.snake.length; i++) {
 		if (g.snake.pos[i][0] == g.snake.pos[0][0] &&
 			g.snake.pos[i][1] == g.snake.pos[0][1]) {
 			g.gameover=1;
@@ -751,10 +761,15 @@ void physics(void)
 		//put new segment at end of snake.
 		Log("snake ate rat. snake.length: %i   dir: %i\n",
 		                                g.snake.length,g.snake.direction);
-		int addlength = rand() % 4 + 4;
+		
+        // JG: 2020-04-07 - when treasure collected, it follows you now (?)
+        // changed it to add length by 2 to accomodate for space.
+        int addlength = 2;
 		//TS: 2020-07-04 added a counter to count when
 		//the snake collects the item
-		g.count++;
+        // JG: 2020-04-07 - worked with TS to make collected item counter 
+        // count correctly.
+		g.collCount++;
 		for (i=0; i<addlength; i++) {
 			g.snake.pos[g.snake.length][0] = g.snake.pos[g.snake.length-1][0];
 			g.snake.pos[g.snake.length][1] = g.snake.pos[g.snake.length-1][1];
@@ -864,6 +879,7 @@ void render(void)
 		glVertex2i(s0+b2, s1+b2);
 		glVertex2i(s0+b2, s1-b2);
 	glEnd();
+    
 	//
 	//grid lines...
 	int x0 = s0-b2;
@@ -944,8 +960,8 @@ void render(void)
 	r.left = 10;
 	r.center = 0;
 	ggprint8b(&r, 16, 0x00ffffff, "Get Off My Lawn");
-	ggprint8b(&r, 16, 0x00ffffff, "Number of items collected: %i", g.count);
-        ggprint8b(&r, 16, 0x00ffffff, "Points:");
+	ggprint8b(&r, 16, 0x00ffffff, "Number of items collected: %i", g.collCount);
+        ggprint8b(&r, 16, 0x00ffffff, "Points: %i", g.totalScore);
 }
 
 
