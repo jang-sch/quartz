@@ -248,6 +248,7 @@ public:
 	}
 	void reshapeWindow(int width, int height) {
 		//window has been resized.
+		//Change made by DC:April8th, the background is no longer upsidedown
 		setupScreenRes(width, height);
 		//
 		glViewport(0, 0, (GLint)width, (GLint)height);
