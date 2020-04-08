@@ -162,6 +162,8 @@ struct Global {
 	int boardDim;
 	int gameover;
 	int winner;
+	//TS: added a count function for the items collected
+	int count = 0;
 	Image *marbleImage;
 	GLuint marbleTexture;
 	Button button[MAXBUTTONS];
@@ -750,6 +752,9 @@ void physics(void)
 		Log("snake ate rat. snake.length: %i   dir: %i\n",
 		                                g.snake.length,g.snake.direction);
 		int addlength = rand() % 4 + 4;
+		//TS: 2020-07-04 added a counter to count when
+		//the snake collects the item
+		g.count++;
 		for (i=0; i<addlength; i++) {
 			g.snake.pos[g.snake.length][0] = g.snake.pos[g.snake.length-1][0];
 			g.snake.pos[g.snake.length][1] = g.snake.pos[g.snake.length-1][1];
@@ -765,7 +770,7 @@ void physics(void)
 			for (i=0; i<g.snake.length; i++) {
 				if (g.rat.pos[0] == g.snake.pos[i][0] &&
 					g.rat.pos[1] == g.snake.pos[i][1]) {
-					collision=1;
+				       collision=1;
 					break;
 				}
 			}
@@ -933,13 +938,14 @@ void render(void)
 	//r.left   = g.xres/2;
 	//r.bot    = g.yres-100;
 	//r.center = 1;
-	//TS: 2020-07-01 - changed the title of game and allowed to showe
-	//user the number of items collected
+	//TS: 2020-07-04 - changed the title of game and allowed to showe
+	//user the number of items collected, and the number of points
 	r.bot = g.yres - 20;
 	r.left = 10;
 	r.center = 0;
 	ggprint8b(&r, 16, 0x00ffffff, "Get Off My Lawn");
-	ggprint8b(&r, 16, 0x00ffffff, "number of items collected:");
+	ggprint8b(&r, 16, 0x00ffffff, "Number of items collected: %i", g.count);
+        ggprint8b(&r, 16, 0x00ffffff, "Points:");
 }
 
 
