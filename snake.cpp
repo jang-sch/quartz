@@ -54,12 +54,13 @@
 #endif //USE_OPENAL_SOUND
 
 // JG: 2020-04-06 - changed background image to be our game map.
-// TS: 4/8/2020 - Added main menu image
+// TS: 2020-08-04 - Added main menu image
 Image img[2] = {
 	"./images/Game_Map.png",
 	"./images/mainMenu.png"
 };
 
+//TS:2020-08-04
 //Singleton global instance, global defined in snake.h
 Global g;
 
@@ -425,10 +426,16 @@ void init()
 	//initialize buttons...
 	g.nbuttons=0;
 	//size and position
-	g.button[g.nbuttons].r.width = 100;
-	g.button[g.nbuttons].r.height = 60;
-	g.button[g.nbuttons].r.left = 10;
-	g.button[g.nbuttons].r.bot = 320;
+	//TS: 2020-08-04 - changed height, width, and location of the buttons
+	//WILL CHANGE MORE LATER!
+	//g.button[g.nbuttons].r.width = 100; - original
+	//g.button[g.nbuttons].r.height = 60; - original
+	g.button[g.nbuttons].r.width = 65;
+	g.button[g.nbuttons].r.height = 25;
+	//g.button[g.nbuttons].r.left = 10; - original
+	//g.button[g.nbuttons].r.bot = 320; - original
+	g.button[g.nbuttons].r.left = 445;
+	g.button[g.nbuttons].r.bot = 35;
 	g.button[g.nbuttons].r.right =
 		g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
 	g.button[g.nbuttons].r.top =
@@ -440,18 +447,25 @@ void init()
 	strcpy(g.button[g.nbuttons].text, "Reset");
 	g.button[g.nbuttons].down = 0;
 	g.button[g.nbuttons].click = 0;
-	g.button[g.nbuttons].color[0] = 0.4f;
-	g.button[g.nbuttons].color[1] = 0.4f;
-	g.button[g.nbuttons].color[2] = 0.7f;
+	//g.button[g.nbuttons].color[0] = 0.4f; - original
+	g.button[g.nbuttons].color[0] = 0.3f; 
+	//g.button[g.nbuttons].color[1] = 0.4f; - original
+	g.button[g.nbuttons].color[1] = 0.3f;
+	//g.button[g.nbuttons].color[2] = 0.7f; - original
+	g.button[g.nbuttons].color[2] = 0.6f;
 	g.button[g.nbuttons].dcolor[0] = g.button[g.nbuttons].color[0] * 0.5f;
 	g.button[g.nbuttons].dcolor[1] = g.button[g.nbuttons].color[1] * 0.5f;
 	g.button[g.nbuttons].dcolor[2] = g.button[g.nbuttons].color[2] * 0.5f;
 	g.button[g.nbuttons].text_color = 0x00ffffff;
 	g.nbuttons++;
-	g.button[g.nbuttons].r.width = 100;
-	g.button[g.nbuttons].r.height = 60;
-	g.button[g.nbuttons].r.left = 10;
-	g.button[g.nbuttons].r.bot = 160;
+	//g.button[g.nbuttons].r.width = 100; - original
+	//g.button[g.nbuttons].r.height = 60; - original
+	g.button[g.nbuttons].r.width = 65;
+	g.button[g.nbuttons].r.height = 25;
+	//g.button[g.nbuttons].r.left = 10; - original 
+	//g.button[g.nbuttons].r.bot = 160; - original
+	g.button[g.nbuttons].r.left = 590;
+	g.button[g.nbuttons].r.bot = 35;
 	g.button[g.nbuttons].r.right =
 		g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
 	g.button[g.nbuttons].r.top = g.button[g.nbuttons].r.bot +
@@ -574,8 +588,10 @@ int checkMouse(XEvent *e)
 							resetGame();
 							break;
 						case 1:
+					//TS: 2020-08-04 - the game will end when button is pushed
+					//instead of saying the button was pushed
 							endGame();
-							printf("Quit was clicked!\n");
+							//printf("Quit was clicked!\n");
 							return 1;
 					}
 				}
@@ -608,6 +624,8 @@ void getGridCenter(const int i, const int j, int cent[2])
 	cent[1] += (bq * i1);
 }
 
+//TS: added an endGame function so the player
+//can quit the game when button is pushed
 void endGame()
 {
     exit(EXIT_FAILURE);
@@ -798,7 +816,9 @@ void render(void)
 		for (i=0; i<g.nbuttons; i++) {
 			if (g.button[i].over) {
 				int w=2;
-				glColor3f(1.0f, 1.0f, 0.0f);
+				//TS: 2020-08-04 - commented out the yellow highlight
+				//to have a whiteish highlight around button
+				//glColor3f(1.0f, 1.0f, 0.0f);
 				//draw a highlight around button
 				glLineWidth(3);
 				glBegin(GL_LINE_LOOP);
