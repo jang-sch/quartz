@@ -247,18 +247,9 @@ public:
 		g.yres = h;
 	}
 	void reshapeWindow(int width, int height) {
-		
-		
-		
-		
-		
-		
 		//window has been resized.
 		//Change made by DC:April8th, the background is no longer upsidedown
-		// JG: 2020-04-08 - background was not fixed here, it was fixed in
-        // render() function at end of file. Background no longer needs to be
-        // uploaded upside-down to be projected right-side up.
-        setupScreenRes(width, height);
+        	setupScreenRes(width, height);
 		//
 		glViewport(0, 0, (GLint)width, (GLint)height);
 		glMatrixMode(GL_PROJECTION); glLoadIdentity();
