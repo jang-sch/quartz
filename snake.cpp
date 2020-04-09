@@ -135,6 +135,9 @@ class X11_wrapper {
 		void reshapeWindow(int width, int height) {
 			//window has been resized.
 			//Change made by DC:April8th, the background is no longer upsidedown
+			// JG: 2020-04-08/09 - background was not fixed here, it was fixed
+            // render() function. Background no longer needs to be uploaded
+            // upside-down to be projected right-side-up.
 			setupScreenRes(width, height);
 			//
 			glViewport(0, 0, (GLint)width, (GLint)height);
@@ -783,10 +786,11 @@ void render(void)
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glBindTexture(GL_TEXTURE_2D, g.marbleTexture);
 		glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      0);
-		glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      g.yres);
-		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, g.yres);
-		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, 0);
+		// JG: 2020-04-08/09 - fixed upside-down projection of background 
+		glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      0);        // prev: 0000 
+		glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      g.yres);   // prev: 010y
+		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);   // prev: 11xy
+		glTexCoord2f(1.0f, 1.0f); glVertex2i(g.xres, 0);        // prev: 10x0
 		glEnd();
 		glBindTexture(GL_TEXTURE_2D, 0); // WAHT DOES THIS MEAN?
 		//
