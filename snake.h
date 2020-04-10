@@ -147,6 +147,8 @@ struct Global {
 	int gameover;
 	int winner;
 	int gameSelect;
+
+
 	//TS: added a count function for the items collected
     //JG: 2020-04-07 - changed variable name for clarity
 	int collCount = 0;
@@ -158,11 +160,13 @@ struct Global {
 	const int LEGENDARY_I = 80;
 	int totalScore = 0;
 	//
-	Image *marbleImage;
-	GLuint marbleTexture;
+	Image *mapImage;
+	GLuint mapTexture;
 	Button button[MAXBUTTONS];
 	int nbuttons;
 	//
+
+
 	ALuint alBufferDrip, alBufferTick;
 	ALuint alSourceDrip, alSourceTick;
 	Global() {
@@ -175,7 +179,7 @@ struct Global {
 		gameover = 0;
 		winner = 0;
 		nbuttons = 0;
-		marbleImage=NULL;
+		mapImage=NULL;
 		gameSelect = 1;
 	}
 };

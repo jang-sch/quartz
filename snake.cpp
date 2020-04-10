@@ -55,9 +55,11 @@
 
 // JG: 2020-04-06 - changed background image to be our game map.
 // TS: 2020-08-04 - Added main menu image
-Image img[2] = {
+// JG: 2020-04-10 - added test image for item spawn testing
+Image img[3] = {
 	"./images/Game_Map.png",
-	"./images/mainMenu.png"
+	"./images/mainMenu.png",
+	"./images/testItem.png"
 };
 
 //TS:2020-08-04
@@ -355,25 +357,25 @@ void initOpengl(void)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//
 	glEnable(GL_TEXTURE_2D);
-	//marble_texture = loadBMP("marble.bmp");
+	//map_texture = loadBMP("....?.bmp");
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//
 	//load the image file into a ppm structure.
 	//
-	//g.marbleImage = ppm6GetImage("./images/marble.ppm");
-	g.marbleImage = &img[0];
+	//g.mapImage = ppm6GetImage("./images/map.ppm");
+	g.mapImage = &img[0];
 	//
 	//create opengl texture elements
-	glGenTextures(1, &g.marbleTexture);
+	glGenTextures(1, &g.mapTexture);
 	//openGL texture for main menu
 	glGenTextures(1, &g.gameMenu);
 
-	glBindTexture(GL_TEXTURE_2D, g.marbleTexture);
+	glBindTexture(GL_TEXTURE_2D, g.mapTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3,
-			g.marbleImage->width, g.marbleImage->height,
-			0, GL_RGB, GL_UNSIGNED_BYTE, g.marbleImage->data);
+			g.mapImage->width, g.mapImage->height,
+			0, GL_RGB, GL_UNSIGNED_BYTE, g.mapImage->data);
 
 	int menuWidth = img[1].width;
 	int menuHeight = img[1].height;  
@@ -728,16 +730,16 @@ void physics(void)
 		int addlength = 2;
 
 		/* JG: 2020-04-07 - pseudocode
-		   if (itemrarity == 1)
-		   totalscore += common
-		   else if (itemrarity == 2)
-		   totalscore += uncommon
-		   else if (itemrarity == 2)
-		   totalscore += rare
-		   else if (itemrarity == 2)
-		   totalscore += epic
-		   else if (itemrarity == 2)
-		   totalscore += legendray
+		   if (itemRarity == 1)
+		   totalScore += common
+		   else if (itemRarity == 2)
+		   totalScore += uncommon
+		   else if (itemRarity == 3)
+		   totalScore += rare
+		   else if (itemRarity == 4)
+		   totalScore += epic
+		   else if (itemRarity == 5)
+		   totalScore += legendray
 		   else
 		   thers some sort of error, consider what happens when snake
 		   eats itself.
@@ -812,7 +814,7 @@ void render(void)
 		//screen background
 		// JG: 2020-04-07 - modified values in glColor3f() to remove dim effect
 		glColor3f(1.0f, 1.0f, 1.0f);
-		glBindTexture(GL_TEXTURE_2D, g.marbleTexture);
+		glBindTexture(GL_TEXTURE_2D, g.mapTexture);
 		glBegin(GL_QUADS);
 		// JG: 2020-04-08 - fixed upside-down projection of background 
 		// JG: 2020-04-09 - fixed projection of background 2: electric boogaloo
@@ -950,6 +952,15 @@ void render(void)
 		glEnd();
 		//
 		//
+		// JAN
+
+		
+
+
+
+		// END JAN
+		
+		
 		//r.left   = g.xres/2;
 		//r.bot    = g.yres-100;
 		//r.center = 1;
