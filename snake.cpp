@@ -1,4 +1,4 @@
-//
+//Commenting scheme is " FL: YYYY-MM-DD - blah blah blah comment"
 //program: snake.cpp
 //author:  Gordon Griesel
 //purpose: Simple snake game
@@ -22,9 +22,9 @@
 // . Rat texture
 // . Levels
 // . Changes in difficulty/speed
-// . Scoring
+// . Scoring (IN PROGRESS 2020-04-09)
 // . Save high scores
-// . Board texture
+// . Board texture (done)
 // . Sound
 // . Special effects
 // . Mouse dragging
@@ -535,6 +535,16 @@ int checkKeys(XEvent *e)
 		case XK_Down:
 			g.snake.direction = DIRECTION_DOWN;
 			break;
+		/* JG: 08-04-09 - this is a quickfix for our issue where the game still
+		starts in background during menu screen. To help during testing of item
+		spawns while a more proper fix is figured out. desp:changing soundtrack
+
+		case XK_Return:
+			if(currentScreen == MENU) {
+			currentScreen = GAME;
+			resetGame();
+			}
+		*/
 		case XK_Return:
 			if(currentScreen == MENU)
 				currentScreen = GAME;
@@ -679,7 +689,7 @@ void physics(void)
 		return;
 	}
 
-	// JG: 2020-4-6 - removed game over when snake crosses itself. Will 
+	// JG: 2020-04-06 - removed game over when snake crosses itself. Will 
 	// revisit this later to see if can be a part of game elsewhere.
 	//check for snake crossing itself...
 	/*for (-i=1; i<g.snake.length; i++) {
@@ -800,11 +810,12 @@ void render(void)
 		glOrtho(0, g.xres, 0, g.yres, -1, 1);
 		//
 		//screen background
-		// JG: 2020-07-04 - modified values in glColor3f() to remove dim effect
+		// JG: 2020-04-07 - modified values in glColor3f() to remove dim effect
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glBindTexture(GL_TEXTURE_2D, g.marbleTexture);
 		glBegin(GL_QUADS);
-		// JG: 2020-04-08/09 - fixed upside-down projection of background 
+		// JG: 2020-04-08 - fixed upside-down projection of background 
+		// JG: 2020-04-09 - fixed projection of background 2: electric boogaloo
 		glTexCoord2f(0.0f, 1.0f); glVertex2i(0,      0);        // prev: 0000 
 		glTexCoord2f(0.0f, 0.0f); glVertex2i(0,      g.yres);   // prev: 010y
 		glTexCoord2f(1.0f, 0.0f); glVertex2i(g.xres, g.yres);   // prev: 11xy
@@ -929,8 +940,8 @@ void render(void)
 		//
 		//draw rat...
 		getGridCenter(g.rat.pos[1],g.rat.pos[0],cent);
-		// JG: 2020-04-07 - rat colors to be treasures
-		glColor3f(1.0, 0.43f, 0.78f);
+		// JG: 2020-04-07/10 - rat colors to be treasures, for testing purposes
+		glColor3f(1.0, 0.0f, 0.0f);
 		glBegin(GL_QUADS);
 		glVertex2i(cent[0]-4, cent[1]-3);
 		glVertex2i(cent[0]-4, cent[1]+4);
