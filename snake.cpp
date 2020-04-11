@@ -54,7 +54,7 @@
 #endif //USE_OPENAL_SOUND
 
 // JG: 2020-04-06 - changed background image to be our game map.
-// TS: 2020-08-04 - Added main menu image
+// TS: 2020-04-08 - Added main menu image
 // JG: 2020-04-10 - added test image for item spawn testing
 Image img[3] = {
 	"./images/Game_Map.png",
@@ -62,7 +62,7 @@ Image img[3] = {
 	"./images/testItem.png"
 };
 
-//TS:2020-08-04
+//TS:2020-04-08
 //Singleton global instance, global defined in snake.h
 Global g;
 
@@ -190,7 +190,7 @@ void cleanupSound();
 void playSound(ALuint source);
 #endif //USE_OPENAL_SOUND
 
-//Functions for rendering menu
+//TS: 2020-04-08 functions for rendering menu
 extern void renderMenu(Global &);
 extern void rateFix();
 extern void rateFixReset();
@@ -216,7 +216,7 @@ int main(int argc, char *argv[])
 	clock_gettime(CLOCK_REALTIME, &timeStart);
 	int done = 0;
 
-	//Sets the current screen to the main menu
+	// TS: 2020-04-08 Sets the current screen to the main menu
 	currentScreen = MENU;
 	g.gameSelect = 1;
 	
@@ -386,7 +386,7 @@ void initOpengl(void)
 	  g.tex.yc[1] = 1.0;
 	 */
 
-	//RENDER MENU IMAGE
+	//TS: 2020-04-08 RENDER MENU IMAGE
 	glBindTexture(GL_TEXTURE_2D, g.gameMenu);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -428,7 +428,7 @@ void init()
 	//initialize buttons...
 	g.nbuttons=0;
 	//size and position
-	//TS: 2020-08-04 - changed height, width, and location of the buttons
+	//TS: 2020-04-08 - changed height, width, and location of the buttons
 	//WILL CHANGE MORE LATER!
 	//g.button[g.nbuttons].r.width = 100; - original
 	//g.button[g.nbuttons].r.height = 60; - original
@@ -436,8 +436,8 @@ void init()
 	g.button[g.nbuttons].r.height = 25;
 	//g.button[g.nbuttons].r.left = 10; - original
 	//g.button[g.nbuttons].r.bot = 320; - original
-	g.button[g.nbuttons].r.left = 445;
-	g.button[g.nbuttons].r.bot = 35;
+	g.button[g.nbuttons].r.left = 575;
+	g.button[g.nbuttons].r.bot = 25;
 	g.button[g.nbuttons].r.right =
 		g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
 	g.button[g.nbuttons].r.top =
@@ -466,8 +466,8 @@ void init()
 	g.button[g.nbuttons].r.height = 25;
 	//g.button[g.nbuttons].r.left = 10; - original 
 	//g.button[g.nbuttons].r.bot = 160; - original
-	g.button[g.nbuttons].r.left = 590;
-	g.button[g.nbuttons].r.bot = 35;
+	g.button[g.nbuttons].r.left = 725;
+	g.button[g.nbuttons].r.bot = 25;
 	g.button[g.nbuttons].r.right =
 		g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
 	g.button[g.nbuttons].r.top = g.button[g.nbuttons].r.bot +
@@ -547,6 +547,10 @@ int checkKeys(XEvent *e)
 			resetGame();
 			}
 		*/
+		//TS:2020-04-08 to let the player press enter to 
+		//go to the game screen from the main menu; fixed
+		//the code in the physics() function so the game 
+		//no longer starts when the menu is showing.
 		case XK_Return:
 			if(currentScreen == MENU)
 				currentScreen = GAME;
@@ -600,7 +604,7 @@ int checkMouse(XEvent *e)
 							resetGame();
 							break;
 						case 1:
-					//TS: 2020-08-04 - the game will end when button is pushed
+					//TS: 2020-04-08 - the game will end when button is pushed
 					//instead of saying the button was pushed
 							endGame();
 							//printf("Quit was clicked!\n");
@@ -636,7 +640,7 @@ void getGridCenter(const int i, const int j, int cent[2])
 	cent[1] += (bq * i1);
 }
 
-//TS: added an endGame function so the player
+//TS: 2020-04-08 added an endGame function so the player
 //can quit the game when button is pushed
 void endGame()
 {
@@ -649,11 +653,13 @@ void physics(void)
 		return;
 	//
 	//
+	//TS: 2020-04-11 the fix where the game would start at the menu
 	//Is it time to move the snake?
 	static struct timespec snakeTime;
-	static int firsttime=1;
-	if (firsttime) {
-		firsttime=0;
+	//static int firsttime=1; - original code
+	//if(firsttime){ - original code
+	if (currentScreen == MENU) {
+		//firsttime=0; - original code
 		clock_gettime(CLOCK_REALTIME, &snakeTime);
 	}
 	struct timespec tt;
@@ -746,7 +752,7 @@ void physics(void)
 		 */
 
 
-		//TS: 2020-07-04 added a counter to count when
+		//TS: 2020-04-07 added a counter to count when
 		//the snake collects the item
 		// JG: 2020-04-07 - worked with TS to make collected item counter 
 		// count correctly.
@@ -829,7 +835,7 @@ void render(void)
 		for (i=0; i<g.nbuttons; i++) {
 			if (g.button[i].over) {
 				int w=2;
-				//TS: 2020-08-04 - commented out the yellow highlight
+				//TS: 2020-04-08 - commented out the yellow highlight
 				//to have a whiteish highlight around button
 				//glColor3f(1.0f, 1.0f, 0.0f);
 				//draw a highlight around button
@@ -964,7 +970,7 @@ void render(void)
 		//r.left   = g.xres/2;
 		//r.bot    = g.yres-100;
 		//r.center = 1;
-		//TS: 2020-07-04 - changed the title of game and allowed to show
+		//TS: 2020-04-08 - changed the title of game and allowed to show
 		//user the number of items collected, and the number of points
 		// JG: 2020-04-07 - added scorekeeping, depends on item rarity; font color
 		r.bot = g.yres - 20;
