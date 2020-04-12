@@ -38,11 +38,12 @@ void renderMenu(Global &g)
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void rateFix()
-{
-	system("xset r rate 1 40");
-}
+//TS:2020-04-08 fixes jitters when a key is pressed
 void rateFixReset()
 {
 	system("xset r rate");	
+}
+//TS:2020-04-11 function to decrement the time to show the player how much time is left
+int countdown(int& currentTime){
+    return(currentTime--);
 }

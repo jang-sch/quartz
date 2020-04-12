@@ -192,8 +192,10 @@ void playSound(ALuint source);
 
 //TS: 2020-04-08 functions for rendering menu
 extern void renderMenu(Global &);
-extern void rateFix();
 extern void rateFixReset();
+//TS: 2020-04-11 function for a timer to display on
+//screen
+extern int countdown(int&);
 
 
 
@@ -386,7 +388,8 @@ void initOpengl(void)
 	  g.tex.yc[1] = 1.0;
 	 */
 
-	//TS: 2020-04-08 RENDER MENU IMAGE
+	//TS: 2020-04-08 Load menu
+	//save data into g.gameMenu for renderMenu90 function
 	glBindTexture(GL_TEXTURE_2D, g.gameMenu);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -495,6 +498,9 @@ void resetGame()
 	initRat();
 	g.gameover  = 0;
 	g.winner    = 0;
+	//TS:2020-04-11 - when reseting the game the time restarts
+	//(at a fixed time our group decides on)
+	g.timeRemaining = 1000;
 }
 
 int checkKeys(XEvent *e)
@@ -788,11 +794,14 @@ void render(void)
 {
 	int i,j;
 	Rect r;
-
+        //TS:2020-04-08 - load to check the gamestate
+	//IF loop when the currentScreen is menu
+	//then it will render the menu
 	if (currentScreen == MENU){
 		rateFixReset();
 		renderMenu(g);
 	}
+	//ELSE then the game will the gaming screen
 	else if (currentScreen == GAME) {
 
 		//--------------------------------------------------------
@@ -976,9 +985,16 @@ void render(void)
 		r.bot = g.yres - 20;
 		r.left = 10;
 		r.center = 0;
+		//TS: 2020-04-11 - to make sure the countdown works correctly 
+		//and does not go into the negatives
+                if(g.timeRemaining > 0)
+		   countdown(g.timeRemaining);	
 		ggprint8b(&r, 16, 0x00006600, "Get Off My Lawn");
 		ggprint8b(&r, 16, 0x00006600, "Quit: Esc");
 		ggprint8b(&r, 16, 0x00006600, "Number of items collected: %i", g.collCount);
+		//TS:2020-04-11 - added to show the remaining time for the player
+		//to collect the items
+	        ggprint8b(&r, 16, 0x00006600, "Time left: %i", g.timeRemaining);
 		ggprint8b(&r, 16, 0x00006600, "Points: %i", g.totalScore);
 		
 	

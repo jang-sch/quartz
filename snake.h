@@ -1,6 +1,6 @@
 #pragma once
 
-//Header file for global and other stuff pertaining to the game
+//TS: 2020-04-08 -Header file for global and other stuff pertaining to the game
 //Placed here for ease of customization
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,7 +65,7 @@ typedef struct t_button {
 	unsigned int text_color;
 } Button;
 
-//enumerated type for determining what state 
+//TS: 2020-04-08 enumerated type for determining what state 
 //the game is in (menu, ingame, etc..)
 //used for main menu
 enum gameState {
@@ -140,16 +140,17 @@ struct Global {
 	Snake snake;
 	Rat rat;
 	int gridDim;
-	
+        //TS: 2020-04-08 OpenGL data member for storing image information	
 	GLuint gameMenu;
-	
+	//TS: 2020-04-11 timeRemaining function
+        int timeRemaining;	
 	int boardDim;
 	int gameover;
 	int winner;
 	int gameSelect;
 
 
-	//TS: added a count function for the items collected
+    //TS: 2020-04-07 added a count function for the items collected
     //JG: 2020-04-07 - changed variable name for clarity
 	int collCount = 0;
     //JG: 2020-04-07 - added variableS to calculate and keep score
@@ -181,10 +182,9 @@ struct Global {
 		nbuttons = 0;
 		mapImage=NULL;
 		gameSelect = 1;
+	//TS:2020-04-11 - to set the remaining time for the game
+	//(needs to be how many minutes by 60) another function is needed
+		timeRemaining = 1000;
 	}
 };
-
-
-
-//-----------------------------------------------------------------------------
 
