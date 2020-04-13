@@ -1,4 +1,5 @@
-//Functions relating to rendering gamestates go here
+
+//TS:2020-04-08 functions relating to rendering gamestates go here
 
 #include <stdlib.h>
 #include <cstdlib>
@@ -20,7 +21,8 @@ typedef Flt Matrix[4][4];
 
 using namespace std;
 
-
+// TS:2020-04-08 reads information from g.gameMenu to display 
+// main menu function
 void renderMenu(Global &g)
 {
     glColor3f(1.0, 1.0, 1.0);
@@ -38,11 +40,12 @@ void renderMenu(Global &g)
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void rateFix()
-{
-	system("xset r rate 1 40");
-}
+//TS:2020-04-08 fixes jitters when a key is pressed
 void rateFixReset()
 {
 	system("xset r rate");	
+}
+//TS:2020-04-11 function to decrement the time to show the player how much time is left
+int countdown(int& currentTime){
+    return(currentTime--);
 }
