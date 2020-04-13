@@ -142,7 +142,10 @@ struct Global {
 	int gridDim;
         //TS: 2020-04-08 OpenGL data member for storing image information	
 	GLuint gameMenu;
-	//TS: 2020-04-11 timeRemaining function
+	//TS: 2020-04-11 timeRemaining variable
+	//TS:2020-04-12 changed timeRemaining variable and
+	//added a framesRemaining
+        int framesRemaining;
         int timeRemaining;	
 	int boardDim;
 	int gameover;
@@ -184,7 +187,11 @@ struct Global {
 		gameSelect = 1;
 	//TS:2020-04-11 - to set the remaining time for the game
 	//(needs to be how many minutes by 60) another function is needed
-		timeRemaining = 1000;
+	//TS:2020-04-12 changed the name from timeRemaining to framesRemaining
+	//for more clarity and dividing the framesRemaining and to store it into
+	//timeRemaining to display the correct amount of seconds on the screen
+		framesRemaining = 1000;
+		timeRemaining = framesRemaining/60;
 	}
 };
 

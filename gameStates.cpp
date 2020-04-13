@@ -1,4 +1,5 @@
-//Functions relating to rendering gamestates go here
+
+//TS:2020-04-08 functions relating to rendering gamestates go here
 
 #include <stdlib.h>
 #include <cstdlib>
@@ -20,7 +21,8 @@ typedef Flt Matrix[4][4];
 
 using namespace std;
 
-
+// TS:2020-04-08 reads information from g.gameMenu to display 
+// main menu function
 void renderMenu(Global &g)
 {
     glColor3f(1.0, 1.0, 1.0);

@@ -200,8 +200,6 @@ extern int countdown(int&);
 
 
 
-
-
 /*================= MAIN =================*/
 
 int main(int argc, char *argv[])
@@ -389,7 +387,7 @@ void initOpengl(void)
 	 */
 
 	//TS: 2020-04-08 Load menu
-	//save data into g.gameMenu for renderMenu90 function
+	//save data into g.gameMenu for renderMenu() function
 	glBindTexture(GL_TEXTURE_2D, g.gameMenu);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -794,6 +792,16 @@ void render(void)
 {
 	int i,j;
 	Rect r;
+        //TS: 2020-04-11 - to make sure the countdown works correctly 
+        //and does not go into the negatives
+	//TS:2020-04-12 - added a couple of lines of code to change the 
+	//display from frames per second to just seconds
+         if(g.framesRemaining > 0){
+           countdown(g.framesRemaining);
+	   if(g.framesRemaining%60 == 0)
+	       g.timeRemaining = g.framesRemaining/60;
+	 }
+
         //TS:2020-04-08 - load to check the gamestate
 	//IF loop when the currentScreen is menu
 	//then it will render the menu
@@ -985,17 +993,14 @@ void render(void)
 		r.bot = g.yres - 20;
 		r.left = 10;
 		r.center = 0;
-		//TS: 2020-04-11 - to make sure the countdown works correctly 
-		//and does not go into the negatives
-                if(g.timeRemaining > 0)
-		   countdown(g.timeRemaining);	
 		ggprint8b(&r, 16, 0x00006600, "Get Off My Lawn");
-		ggprint8b(&r, 16, 0x00006600, "Quit: Esc");
+                //TS:2020-04-11 added to show the remaining time for the player 
+                //to collect the items
+                ggprint8b(&r, 16, 0x00006600, "Time left: %i seconds", g.timeRemaining);
 		ggprint8b(&r, 16, 0x00006600, "Number of items collected: %i", g.collCount);
-		//TS:2020-04-11 - added to show the remaining time for the player
-		//to collect the items
-	        ggprint8b(&r, 16, 0x00006600, "Time left: %i", g.timeRemaining);
-		ggprint8b(&r, 16, 0x00006600, "Points: %i", g.totalScore);
+		ggprint8b(&r, 16, 0x00006600, "Points: %i", g.totalScore, ":");
+                ggprint8b(&r, 16, 0x00006600, "Quit: Esc");
+
 		
 	
 	}
