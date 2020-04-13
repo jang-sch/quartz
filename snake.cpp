@@ -394,6 +394,7 @@ void initOpengl(void)
 }
 
 // JG: 2020-04-07 - changed starting position of snake
+// NL: 2020-04-10 - made snake position a little lower so it is on the road
 void initSnake()
 {
 	int i;
@@ -402,7 +403,7 @@ void initSnake()
 	g.snake.length = rand() % 4 + 3;
 	for (i=0; i<g.snake.length; i++) {
 		g.snake.pos[i][0] = 1;
-		g.snake.pos[i][1] = 10;
+		g.snake.pos[i][1] = 14;
 	}
 	g.snake.direction = DIRECTION_RIGHT;
 	//snake.timer = glfwGetTime() + 0.5;
@@ -680,13 +681,239 @@ void physics(void)
 		case DIRECTION_UP:    g.snake.pos[0][1] -= 1; break;
 		case DIRECTION_RIGHT: g.snake.pos[0][0] += 1; break;
 	}
-	//check for snake off board...
-	if (g.snake.pos[0][0] < 0 ||
-			g.snake.pos[0][0] > g.gridDim-1 ||
-			g.snake.pos[0][1] < 0 ||
-			g.snake.pos[0][1] > g.gridDim-1) {
+	//NL: 2020-04-11 - checks if snake is within the map, the outter range, collision detection
+	if (g.snake.pos[0][0] < 0 || //left bound 
+			g.snake.pos[0][0] > g.gridDim || //right bound
+			g.snake.pos[0][1] < 11 || //upper bound
+			g.snake.pos[0][1] > g.gridDim-11) { //lower bound
 		g.gameover=1;
 		return;
+	}
+	if(g.snake.pos[0][0] > 0 &&
+			g.snake.pos[0][0] < g.gridDim-54 &&
+			g.snake.pos[0][1] < 14){
+		if(g.snake.pos[0][1] < 14){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 46 &&
+			g.snake.pos[0][0] < g.gridDim &&
+			g.snake.pos[0][1] < 15){
+		if(g.snake.pos[0][1] < 15){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 39 &&
+			g.snake.pos[0][0] < g.gridDim &&
+			g.snake.pos[0][1] > g.gridDim-14){
+		if(g.snake.pos[0][1] > g.gridDim-14){
+			g.gameover=1;
+			return;
+		}
+	}
+	//bottom left section-ish
+	if(g.snake.pos[0][0] > 3 && //left
+			g.snake.pos[0][0] < g.gridDim-37 && //right
+			g.snake.pos[0][1] > 52 && //upper
+			g.snake.pos[0][1] < g.gridDim-14){ //lower
+		if(g.snake.pos[0][1] > 52){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 14 && 
+			g.snake.pos[0][0] < g.gridDim-37 &&
+			g.snake.pos[0][1] > 48){
+		if(g.snake.pos[0][1] > 48){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 22 &&
+			g.snake.pos[0][0] < g.gridDim-37 &&
+			g.snake.pos[0][1] > 31){
+		if(g.snake.pos[0][1] > 31){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 29 &&
+			g.snake.pos[0][0] < g.gridDim-37 &&
+			g.snake.pos[0][1] > 27){
+		if(g.snake.pos[0][1] > 27){
+			g.gameover=1;
+			return;
+		}
+	}
+	//left pond thingy
+	if(g.snake.pos[0][0] < 8 && //left
+			g.snake.pos[0][0] < g.gridDim-61 && //right
+			g.snake.pos[0][1] > 42 &&
+			g.snake.pos[0][1] < g.gridDim-23){ //lower
+		if(g.snake.pos[0][1] > 43){
+			g.gameover=1;
+			return;
+		}
+	}
+	//middle left
+	if(g.snake.pos[0][0] > 3 &&
+			g.snake.pos[0][0] < g.gridDim-53 &&
+			g.snake.pos[0][1] > 31 &&
+			g.snake.pos[0][1] < g.gridDim-32){
+		if(g.snake.pos[0][1] > 31){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 11 &&
+			g.snake.pos[0][0] < g.gridDim-53 &&
+			g.snake.pos[0][1] < g.gridDim-26){
+		if(g.snake.pos[0][1] > 31){
+			g.gameover=1;
+			return;
+		}
+	}
+	//top left section
+	if(g.snake.pos[0][0] > 3 &&
+			g.snake.pos[0][0] < g.gridDim-54 &&
+			g.snake.pos[0][1] > 15 &&
+			g.snake.pos[0][1] < g.gridDim-43){
+		if(g.snake.pos[0][1] > 15){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 3 &&
+			g.snake.pos[0][0] < g.gridDim-50 &&
+			g.snake.pos[0][1] > 20 &&
+			g.snake.pos[0][1] < g.gridDim-43){
+		if(g.snake.pos[0][1] > 20){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 3 &&
+			g.snake.pos[0][0] < g.gridDim-46 &&
+			g.snake.pos[0][1] > 24 &&
+			g.snake.pos[0][1] < g.gridDim-43){
+		if(g.snake.pos[0][1] > 24){
+			g.gameover=1;
+			return;
+		}
+	}
+	//lower right squares
+	if(g.snake.pos[0][0] > 38 &&
+			g.snake.pos[0][0] < g.gridDim-20 &&
+			g.snake.pos[0][1] > 43 &&
+			g.snake.pos[0][1] < g.gridDim-17){
+		if(g.snake.pos[0][1] > 41){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 55 &&
+			g.snake.pos[0][0] < g.gridDim-3 &&
+			g.snake.pos[0][1] > 49 &&
+			g.snake.pos[0][1] < g.gridDim-17){
+		if(g.snake.pos[0][1] > 47){
+			g.gameover=1;
+			return;
+		}
+	}	
+	//middle right section
+	if(g.snake.pos[0][0] > 55 &&
+			g.snake.pos[0][0] < g.gridDim-3 &&
+			g.snake.pos[0][1] > 33 &&
+			g.snake.pos[0][1] < g.gridDim-27){
+		if(g.snake.pos[0][1] > 33){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 38 &&
+			g.snake.pos[0][0] < g.gridDim-16 &&
+			g.snake.pos[0][1] > 31 &&
+			g.snake.pos[0][1] < g.gridDim-33){
+		if(g.snake.pos[0][1] > 31){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 38 &&
+			g.snake.pos[0][0] < g.gridDim-19 &&
+			g.snake.pos[0][1] > 30 && 
+			g.snake.pos[0][1] < g.gridDim-33){
+		if(g.snake.pos[0][1] > 30){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 38 &&
+			g.snake.pos[0][0] < g.gridDim-29 &&
+			g.snake.pos[0][1] > 27 &&
+			g.snake.pos[0][1] < g.gridDim-33){
+		if(g.snake.pos[0][1] > 27){
+			g.gameover=1;
+			return;
+		}
+	}
+	//top right section
+	if(g.snake.pos[0][0] > 46 &&
+			g.snake.pos[0][0] < g.gridDim-3 &&
+			g.snake.pos[0][1] > 17 &&
+			g.snake.pos[0][1] < g.gridDim-43){
+		if(g.snake.pos[0][1] > 17){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 53 &&
+			g.snake.pos[0][0] < g.gridDim-3 &&
+			g.snake.pos[0][1] > 17 &&
+			g.snake.pos[0][1] < g.gridDim-42){
+		if(g.snake.pos[0][1] < g.gridDim-42){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 59 &&
+			g.snake.pos[0][0] < g.gridDim-3 &&
+			g.snake.pos[0][1] > 17 &&
+			g.snake.pos[0][1] < g.gridDim-41){
+		if(g.snake.pos[0][1] < g.gridDim-41){
+			g.gameover=1;
+			return;
+		}
+	}
+	//top middle area
+	if(g.snake.pos[0][0] > 21 &&
+			g.snake.pos[0][0] < g.gridDim-30 &&
+			g.snake.pos[0][1] > 13 &&
+			g.snake.pos[0][1] < g.gridDim-53){
+		if(g.snake.pos[0][1] > 13){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 25 &&
+			g.snake.pos[0][0] < g.gridDim-30 &&
+			g.snake.pos[0][1] > 13 &&
+			g.snake.pos[0][1] < g.gridDim-50){
+		if(g.snake.pos[0][1] > 13){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 30 &&
+			g.snake.pos[0][0] < g.gridDim-30 &&
+			g.snake.pos[0][1] > 13 &&
+			g.snake.pos[0][1] < g.gridDim-47){
+		if(g.snake.pos[0][1] > 13){
+			g.gameover=1;
+			return;
+		}
 	}
 
 	// JG: 2020-04-06 - removed game over when snake crosses itself. Will 
@@ -967,7 +1194,3 @@ void render(void)
 	
 	}
 }
-
-
-
-
