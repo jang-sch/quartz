@@ -56,16 +56,18 @@
 // JG: 2020-04-06 - changed background image to be our game map.
 // TS: 2020-04-08 - Added main menu image
 // JG: 2020-04-10 - added test image for item spawn testing
-Image img[3] = {
+// TS: 2020-04-12 - added a testing gameOver image for when the
+// game runs out of time
+Image img[4] = {
 	"./images/Game_Map.png",
 	"./images/mainMenu.png",
-	"./images/testItem.png"
+	"./images/testItem.png",
+	"./images/gameOver.png"
 };
 
-//TS:2020-04-08
-//Singleton global instance, global defined in snake.h
-Global g;
 
+//TS:2020-04-08 - Singleton global instance, global defined in snake.h
+Global g;
 gameState currentScreen;
 
 //Setup timers
@@ -189,18 +191,18 @@ void initSound();
 void cleanupSound();
 void playSound(ALuint source);
 #endif //USE_OPENAL_SOUND
-
 //TS: 2020-04-08 functions for rendering menu
 extern void renderMenu(Global &);
 extern void rateFixReset();
 //TS: 2020-04-11 function for a timer to display on
 //screen
 extern int countdown(int&);
+//TS: 2020-04-13 - function to render the game over screen
+extern void renderGameOverScreen(Global &);
 
 
 
-
-/*================= MAIN =================*/
+/*================ MAIN =================*/
 
 int main(int argc, char *argv[])
 {
@@ -369,7 +371,7 @@ void initOpengl(void)
 	glGenTextures(1, &g.mapTexture);
 	//openGL texture for main menu
 	glGenTextures(1, &g.gameMenu);
-
+        glGenTextures(1, &g.gameOverScreen);
 	glBindTexture(GL_TEXTURE_2D, g.mapTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -393,6 +395,15 @@ void initOpengl(void)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, menuWidth, menuHeight, 0,
 			GL_RGB, GL_UNSIGNED_BYTE, img[1].data);
+        //TS: 2020-04-13 Load endgame
+	//save data into g.gameOverScreen for rendergameOverScreen() function 
+	glBindTexture(GL_TEXTURE_2D, g.gameOverScreen);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, img[3].width, img[3].height, 0,
+                        GL_RGB, GL_UNSIGNED_BYTE, img[3].data);
+
+
 
 }
 
@@ -612,7 +623,7 @@ int checkMouse(XEvent *e)
 					//TS: 2020-04-08 - the game will end when button is pushed
 					//instead of saying the button was pushed
 							endGame();
-							//printf("Quit was clicked!\n");
+							//printf("Quit was clicked!\n"); - original
 							return 1;
 					}
 				}
@@ -656,8 +667,6 @@ void physics(void)
 	int i;
 	if (g.gameover)
 		return;
-	//
-	//
 	//TS: 2020-04-11 the fix where the game would start at the menu
 	//Is it time to move the snake?
 	static struct timespec snakeTime;
@@ -1028,6 +1037,11 @@ void render(void)
 	   if(g.framesRemaining%60 == 0)
 	       g.timeRemaining = g.framesRemaining/60;
 	 }
+	 //TS:2020-04-13 when the timer gets to 0 the gameover screen 
+	 //will show
+         if(g.framesRemaining == 0){
+           currentScreen = GAMEOVER;
+	 }
 
         //TS:2020-04-08 - load to check the gamestate
 	//IF loop when the currentScreen is menu
@@ -1035,6 +1049,11 @@ void render(void)
 	if (currentScreen == MENU){
 		rateFixReset();
 		renderMenu(g);
+	}
+	//TS:2020-04-13 - IF loop when the currentScreen
+	//is gameover then it will render the gameOverScreen
+	if(currentScreen == GAMEOVER){
+	    renderGameOverScreen(g);
 	}
 	//ELSE then the game will the gaming screen
 	else if (currentScreen == GAME) {
