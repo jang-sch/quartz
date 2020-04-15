@@ -57,6 +57,42 @@ void renderGameOverScreen(Global &g)
     glPopMatrix();
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+//TS: 2020-04-14 reads information from g.creditsScreen
+//to display the end of the game
+void renderCreditsScreen(Global &g)
+{
+    glColor3f(1.0, 1.0, 1.0);
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, g.creditsScreen);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 1); glVertex2i(0, 0);
+    glTexCoord2f(0, 0); glVertex2i(0, g.yres);
+    glTexCoord2f(1, 0); glVertex2i(g.xres, g.yres);
+    glTexCoord2f(1, 1); glVertex2i(g.xres, 0);
+    glEnd();
+
+    glPopMatrix();
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+//TS: 2020-04-14 reads information from g.controlsScreen 
+//to display the control screen
+void renderControlsScreen(Global &g)
+{
+    glColor3f(1.0, 1.0, 1.0);
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, g.controlsScreen);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 1); glVertex2i(0, 0);
+    glTexCoord2f(0, 0); glVertex2i(0, g.yres);
+    glTexCoord2f(1, 0); glVertex2i(g.xres, g.yres);
+    glTexCoord2f(1, 1); glVertex2i(g.xres, 0);
+    glEnd();
+
+    glPopMatrix();
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
 
 
 //TS:2020-04-08 fixes jitters when a key is pressed

@@ -58,11 +58,15 @@
 // JG: 2020-04-10 - added test image for item spawn testing
 // TS: 2020-04-12 - added a testing gameOver image for when the
 // game runs out of time
-Image img[4] = {
+// TS: 2020-04-13 - added a testing credits image for the credits
+// page
+Image img[6] = {
 	"./images/Game_Map.png",
 	"./images/mainMenu.png",
 	"./images/testItem.png",
-	"./images/gameOver.png"
+	"./images/gameOver.png",
+	"./images/Credits.png" ,
+	"./images/Controls.png"
 };
 
 
@@ -199,8 +203,10 @@ extern void rateFixReset();
 extern int countdown(int&);
 //TS: 2020-04-13 - function to render the game over screen
 extern void renderGameOverScreen(Global &);
-
-
+//TS: 2020-04-14 function to render the credit screen
+extern void renderCreditsScreen(Global &);
+//TS:2020-04-14 function to render the controls screen
+extern void renderControlsScreen(Global &);
 
 /*================ MAIN =================*/
 
@@ -369,9 +375,15 @@ void initOpengl(void)
 	//
 	//create opengl texture elements
 	glGenTextures(1, &g.mapTexture);
-	//openGL texture for main menu
+	//TS:2020-04-08 openGL texture for main menu
 	glGenTextures(1, &g.gameMenu);
+	//TS:2020-04-11 openGL texture for the gameOver Screen
         glGenTextures(1, &g.gameOverScreen);
+        //TS: 2020-04-14 openGL texture for the credits Screen
+	glGenTextures(1, &g.creditsScreen);
+	//TS: 2020-04-14 openGL texture for the controls page
+	glGenTextures(1, &g.controlsScreen);
+	
 	glBindTexture(GL_TEXTURE_2D, g.mapTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -402,6 +414,22 @@ void initOpengl(void)
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
         glTexImage2D(GL_TEXTURE_2D, 0, 3, img[3].width, img[3].height, 0,
                         GL_RGB, GL_UNSIGNED_BYTE, img[3].data);
+        //TS: 2020-04-14 Load credits
+	//save data into g.creditsScreen for renderCreditsScreen() function
+        glBindTexture(GL_TEXTURE_2D, g.creditsScreen);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, img[4].width, img[4].height, 0,
+                        GL_RGB, GL_UNSIGNED_BYTE, img[4].data);
+        //TS: 2020-04-14 Load controls
+	//save data into g.controlsScreen for renderControlsScreen() function
+        glBindTexture(GL_TEXTURE_2D, g.controlsScreen);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, img[5].width, img[5].height, 0,
+                        GL_RGB, GL_UNSIGNED_BYTE, img[5].data);
+
+
 
 
 
@@ -510,7 +538,7 @@ void resetGame()
 	g.winner    = 0;
 	//TS:2020-04-11 - when reseting the game the time restarts
 	//(at a fixed time our group decides on)
-	g.timeRemaining = 1000;
+	g.framesRemaining = 1000;
 }
 
 int checkKeys(XEvent *e)
@@ -533,6 +561,28 @@ int checkKeys(XEvent *e)
 		case XK_r:
 			resetGame();
 			break;
+               //TS: 2020-04-14 the user will press c from the main menu
+	       //and it will go to the credits page and if you push c again
+	       //in the credits screen then it will go back to the 
+	       //main menu
+		case XK_c:
+			if(currentScreen == MENU)
+			currentScreen = CREDITS;
+			else if(currentScreen != GAME && currentScreen != GAMEOVER && currentScreen != MENU && currentScreen != CONTROLS){
+		        currentScreen = MENU;
+			}
+			break;
+		//TS: 2020-04-14 the user will press h from the main menu
+		//and it will go the controls page and if you push h
+		//again in the controls page then it will go back to the
+		//main menu
+                case XK_h:
+		    if(currentScreen == MENU)
+	            currentScreen = CONTROLS;
+		    else if(currentScreen != GAME && currentScreen != GAMEOVER && currentScreen != MENU && currentScreen != CREDITS){
+			currentScreen = MENU;
+		    }
+		    break;
 		case XK_equal:
 			g.snake.delay *= 0.9;
 			if (g.snake.delay < 0.001)
@@ -1032,7 +1082,7 @@ void render(void)
         //and does not go into the negatives
 	//TS:2020-04-12 - added a couple of lines of code to change the 
 	//display from frames per second to just seconds
-         if(g.framesRemaining > 0){
+         if(g.framesRemaining > 0 && currentScreen == GAME){
            countdown(g.framesRemaining);
 	   if(g.framesRemaining%60 == 0)
 	       g.timeRemaining = g.framesRemaining/60;
@@ -1055,6 +1105,17 @@ void render(void)
 	if(currentScreen == GAMEOVER){
 	    renderGameOverScreen(g);
 	}
+	//TS:2020-04-14 IF loop when the currentScreen 
+	//is credits then it will render the CreditsScreen
+        if(currentScreen == CREDITS){
+            renderCreditsScreen(g);
+        }
+	//TS:2020-04-14 IF loop when the currentScreen
+	//is controls then it will render the ControlsScren
+	if(currentScreen == CONTROLS){
+	    renderControlsScreen(g);
+	}
+
 	//ELSE then the game will the gaming screen
 	else if (currentScreen == GAME) {
 

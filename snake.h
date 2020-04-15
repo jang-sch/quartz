@@ -69,10 +69,14 @@ typedef struct t_button {
 //the game is in (menu, ingame, etc..)
 //used for main menu
 //TS:2020-04-13 added gameover
+//TS:2020-04-14 added credits
+//TS:2020-04-14 added controls
 enum gameState {
 	MENU = 1,
 	GAME,
-	GAMEOVER
+	GAMEOVER,
+	CREDITS,
+	CONTROLS
 };
 
 
@@ -146,6 +150,10 @@ struct Global {
 	GLuint gameMenu;
         //TS: 2020-04-13 OpenGl data member for storing image information
 	GLuint gameOverScreen;
+	//TS: 2020-04-14 OpenGl data member for storing image information
+	GLuint creditsScreen;
+	//TS: 2020-04-14 OpenGL data member for storing image information
+	GLuint controlsScreen;
 	//TS: 2020-04-11 timeRemaining variable
 	//TS:2020-04-12 changed timeRemaining variable and
 	//added a framesRemaining
