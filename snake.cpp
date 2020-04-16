@@ -439,6 +439,7 @@ void initOpengl(void)
 
 // JG: 2020-04-07 - changed starting position of snake
 // NL: 2020-04-10 - made snake position a little lower so it is on the road
+// NL: 2020-04-15 - changed position to fit the modified map & grid
 void initSnake()
 {
 	int i;
@@ -447,7 +448,7 @@ void initSnake()
 	g.snake.length = rand() % 4 + 3;
 	for (i=0; i<g.snake.length; i++) {
 		g.snake.pos[i][0] = 1;
-		g.snake.pos[i][1] = 14;
+		g.snake.pos[i][1] = 9;
 	}
 	g.snake.direction = DIRECTION_RIGHT;
 	//snake.timer = glfwGetTime() + 0.5;
@@ -780,235 +781,230 @@ void physics(void)
 		case DIRECTION_RIGHT: g.snake.pos[0][0] += 1; break;
 	}
 	//NL: 2020-04-11 - checks if snake is within the map, the outter range, collision detection
-	if (g.snake.pos[0][0] < 0 || //left bound 
+	//NL: 2020-04-16 - update to collision for new map & grid size
+	if (g.snake.pos[0][0] < 2 || //left bound 
 			g.snake.pos[0][0] > g.gridDim || //right bound
-			g.snake.pos[0][1] < 11 || //upper bound
-			g.snake.pos[0][1] > g.gridDim-11) { //lower bound
+			g.snake.pos[0][1] < 4 || //upper bound
+			g.snake.pos[0][1] > g.gridDim-4) { //lower bound
 		g.gameover=1;
 		return;
 	}
-	if(g.snake.pos[0][0] > 0 &&
-			g.snake.pos[0][0] < g.gridDim-54 &&
-			g.snake.pos[0][1] < 14){
-		if(g.snake.pos[0][1] < 14){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 46 &&
-			g.snake.pos[0][0] < g.gridDim &&
-			g.snake.pos[0][1] < 15){
-		if(g.snake.pos[0][1] < 15){
+	if(g.snake.pos[0][0] > 2 &&
+			g.snake.pos[0][0] < g.gridDim-44 &&
+			g.snake.pos[0][1] < 7){
+		if(g.snake.pos[0][1] < 7){
 			g.gameover=1;
 			return;
 		}
 	}
 	if(g.snake.pos[0][0] > 39 &&
 			g.snake.pos[0][0] < g.gridDim &&
-			g.snake.pos[0][1] > g.gridDim-14){
-		if(g.snake.pos[0][1] > g.gridDim-14){
+			g.snake.pos[0][1] < 8){
+		if(g.snake.pos[0][1] < 8){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 32 &&
+			g.snake.pos[0][0] < g.gridDim &&
+			g.snake.pos[0][1] > g.gridDim-6){
+		if(g.snake.pos[0][1] > g.gridDim-6){
 			g.gameover=1;
 			return;
 		}
 	}
 	//bottom left section-ish
-	if(g.snake.pos[0][0] > 3 && //left
-			g.snake.pos[0][0] < g.gridDim-37 && //right
-			g.snake.pos[0][1] > 52 && //upper
-			g.snake.pos[0][1] < g.gridDim-14){ //lower
-		if(g.snake.pos[0][1] > 52){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 14 && 
-			g.snake.pos[0][0] < g.gridDim-37 &&
-			g.snake.pos[0][1] > 48){
+	if(g.snake.pos[0][0] > 5 && //left
+			g.snake.pos[0][0] < g.gridDim-31 && //right
+			g.snake.pos[0][1] > 48 && //upper
+			g.snake.pos[0][1] < g.gridDim-8){ //lower
 		if(g.snake.pos[0][1] > 48){
 			g.gameover=1;
 			return;
 		}
 	}
-	if(g.snake.pos[0][0] > 22 &&
-			g.snake.pos[0][0] < g.gridDim-37 &&
-			g.snake.pos[0][1] > 31){
-		if(g.snake.pos[0][1] > 31){
+	if(g.snake.pos[0][0] > 13 && 
+			g.snake.pos[0][0] < g.gridDim-31 &&
+			g.snake.pos[0][1] > 44 &&
+			g.snake.pos[0][1] < g.gridDim-8){
+		if(g.snake.pos[0][1] > 44){
 			g.gameover=1;
 			return;
 		}
 	}
-	if(g.snake.pos[0][0] > 29 &&
-			g.snake.pos[0][0] < g.gridDim-37 &&
-			g.snake.pos[0][1] > 27){
-		if(g.snake.pos[0][1] > 27){
-			g.gameover=1;
-			return;
-		}
-	}
-	//left pond thingy
-	if(g.snake.pos[0][0] < 8 && //left
-			g.snake.pos[0][0] < g.gridDim-61 && //right
-			g.snake.pos[0][1] > 42 &&
-			g.snake.pos[0][1] < g.gridDim-23){ //lower
-		if(g.snake.pos[0][1] > 43){
-			g.gameover=1;
-			return;
-		}
-	}
-	//middle left
-	if(g.snake.pos[0][0] > 3 &&
-			g.snake.pos[0][0] < g.gridDim-53 &&
-			g.snake.pos[0][1] > 31 &&
-			g.snake.pos[0][1] < g.gridDim-32){
-		if(g.snake.pos[0][1] > 31){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 11 &&
-			g.snake.pos[0][0] < g.gridDim-53 &&
-			g.snake.pos[0][1] < g.gridDim-26){
-		if(g.snake.pos[0][1] > 31){
-			g.gameover=1;
-			return;
-		}
-	}
-	//top left section
-	if(g.snake.pos[0][0] > 3 &&
-			g.snake.pos[0][0] < g.gridDim-54 &&
-			g.snake.pos[0][1] > 15 &&
-			g.snake.pos[0][1] < g.gridDim-43){
-		if(g.snake.pos[0][1] > 15){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 3 &&
-			g.snake.pos[0][0] < g.gridDim-50 &&
-			g.snake.pos[0][1] > 20 &&
-			g.snake.pos[0][1] < g.gridDim-43){
-		if(g.snake.pos[0][1] > 20){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 3 &&
-			g.snake.pos[0][0] < g.gridDim-46 &&
-			g.snake.pos[0][1] > 24 &&
-			g.snake.pos[0][1] < g.gridDim-43){
-		if(g.snake.pos[0][1] > 24){
-			g.gameover=1;
-			return;
-		}
-	}
-	//lower right squares
-	if(g.snake.pos[0][0] > 38 &&
-			g.snake.pos[0][0] < g.gridDim-20 &&
-			g.snake.pos[0][1] > 43 &&
-			g.snake.pos[0][1] < g.gridDim-17){
-		if(g.snake.pos[0][1] > 41){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 55 &&
-			g.snake.pos[0][0] < g.gridDim-3 &&
-			g.snake.pos[0][1] > 49 &&
-			g.snake.pos[0][1] < g.gridDim-17){
-		if(g.snake.pos[0][1] > 47){
-			g.gameover=1;
-			return;
-		}
-	}	
-	//middle right section
-	if(g.snake.pos[0][0] > 55 &&
-			g.snake.pos[0][0] < g.gridDim-3 &&
-			g.snake.pos[0][1] > 33 &&
-			g.snake.pos[0][1] < g.gridDim-27){
-		if(g.snake.pos[0][1] > 33){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 38 &&
-			g.snake.pos[0][0] < g.gridDim-16 &&
-			g.snake.pos[0][1] > 31 &&
-			g.snake.pos[0][1] < g.gridDim-33){
-		if(g.snake.pos[0][1] > 31){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 38 &&
-			g.snake.pos[0][0] < g.gridDim-19 &&
-			g.snake.pos[0][1] > 30 && 
-			g.snake.pos[0][1] < g.gridDim-33){
-		if(g.snake.pos[0][1] > 30){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 38 &&
-			g.snake.pos[0][0] < g.gridDim-29 &&
-			g.snake.pos[0][1] > 27 &&
-			g.snake.pos[0][1] < g.gridDim-33){
-		if(g.snake.pos[0][1] > 27){
-			g.gameover=1;
-			return;
-		}
-	}
-	//top right section
-	if(g.snake.pos[0][0] > 46 &&
-			g.snake.pos[0][0] < g.gridDim-3 &&
-			g.snake.pos[0][1] > 17 &&
-			g.snake.pos[0][1] < g.gridDim-43){
-		if(g.snake.pos[0][1] > 17){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 53 &&
-			g.snake.pos[0][0] < g.gridDim-3 &&
-			g.snake.pos[0][1] > 17 &&
-			g.snake.pos[0][1] < g.gridDim-42){
-		if(g.snake.pos[0][1] < g.gridDim-42){
-			g.gameover=1;
-			return;
-		}
-	}
-	if(g.snake.pos[0][0] > 59 &&
-			g.snake.pos[0][0] < g.gridDim-3 &&
-			g.snake.pos[0][1] > 17 &&
-			g.snake.pos[0][1] < g.gridDim-41){
-		if(g.snake.pos[0][1] < g.gridDim-41){
-			g.gameover=1;
-			return;
-		}
-	}
-	//top middle area
-	if(g.snake.pos[0][0] > 21 &&
-			g.snake.pos[0][0] < g.gridDim-30 &&
-			g.snake.pos[0][1] > 13 &&
-			g.snake.pos[0][1] < g.gridDim-53){
-		if(g.snake.pos[0][1] > 13){
+	//above the pond
+	if(g.snake.pos[0][0] > 19 &&
+			g.snake.pos[0][0] < g.gridDim-31 &&
+			g.snake.pos[0][1] > 26 &&
+			g.snake.pos[0][1] < g.gridDim-21){
+		if(g.snake.pos[0][1] > 26){
 			g.gameover=1;
 			return;
 		}
 	}
 	if(g.snake.pos[0][0] > 25 &&
-			g.snake.pos[0][0] < g.gridDim-30 &&
-			g.snake.pos[0][1] > 13 &&
-			g.snake.pos[0][1] < g.gridDim-50){
-		if(g.snake.pos[0][1] > 13){
+			g.snake.pos[0][0] < g.gridDim-31 &&
+			g.snake.pos[0][1] > 23 &&
+			g.snake.pos[0][1] < g.gridDim-21){
+		if(g.snake.pos[0][1] > 23){
 			g.gameover=1;
 			return;
 		}
 	}
-	if(g.snake.pos[0][0] > 30 &&
-			g.snake.pos[0][0] < g.gridDim-30 &&
-			g.snake.pos[0][1] > 13 &&
-			g.snake.pos[0][1] < g.gridDim-47){
-		if(g.snake.pos[0][1] > 13){
+	//middle left
+	if(g.snake.pos[0][0] > 5 &&
+			g.snake.pos[0][0] < g.gridDim-44 &&
+			g.snake.pos[0][1] > 26 &&
+			g.snake.pos[0][1] < g.gridDim-26){
+		if(g.snake.pos[0][1] > 26){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 11 &&
+			g.snake.pos[0][0] < g.gridDim-44 &&
+			g.snake.pos[0][1] < g.gridDim-20){
+		if(g.snake.pos[0][1] > 26){
+			g.gameover=1;
+			return;
+		}
+	}
+	//top left section
+	if(g.snake.pos[0][0] > 5 &&
+			g.snake.pos[0][0] < g.gridDim-44 &&
+			g.snake.pos[0][1] > 11 &&
+			g.snake.pos[0][1] < g.gridDim-38){
+		if(g.snake.pos[0][1] > 11){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 5 &&
+			g.snake.pos[0][0] < g.gridDim-41 &&
+			g.snake.pos[0][1] > 16 &&
+			g.snake.pos[0][1] < g.gridDim-38){
+		if(g.snake.pos[0][1] > 16){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 5 &&
+			g.snake.pos[0][0] < g.gridDim-37 &&
+			g.snake.pos[0][1] > 19 &&
+			g.snake.pos[0][1] < g.gridDim-38){
+		if(g.snake.pos[0][1] > 19){
+			g.gameover=1;
+			return;
+		}
+	}
+	//lower right squares
+	if(g.snake.pos[0][0] > 32 &&
+			g.snake.pos[0][0] < g.gridDim-18 &&
+			g.snake.pos[0][1] > 36 &&
+			g.snake.pos[0][1] < g.gridDim-11){
+		if(g.snake.pos[0][1] > 36){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 45 &&
+			g.snake.pos[0][0] < g.gridDim-5 &&
+			g.snake.pos[0][1] > 42 &&
+			g.snake.pos[0][1] < g.gridDim-11){
+		if(g.snake.pos[0][1] > 42){
+			g.gameover=1;
+			return;
+		}
+	}	
+	//middle right section
+	if(g.snake.pos[0][0] > 45 &&
+			g.snake.pos[0][0] < g.gridDim-5 &&
+			g.snake.pos[0][1] > 23 &&
+			g.snake.pos[0][1] < g.gridDim-28){
+		if(g.snake.pos[0][1] > 23){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 32 &&
+			g.snake.pos[0][0] < g.gridDim-14 &&
+			g.snake.pos[0][1] > 26 &&
+			g.snake.pos[0][1] < g.gridDim-28){
+		if(g.snake.pos[0][1] > 26){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 32 &&
+			g.snake.pos[0][0] < g.gridDim-18 &&
+			g.snake.pos[0][1] > 27 && 
+			g.snake.pos[0][1] < g.gridDim-28){
+		if(g.snake.pos[0][1] > 27){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 32 &&
+			g.snake.pos[0][0] < g.gridDim-25 &&
+			g.snake.pos[0][1] > 29 &&
+			g.snake.pos[0][1] < g.gridDim-22){
+		if(g.snake.pos[0][1] > 29){
+			g.gameover=1;
+			return;
+		}
+	}
+	//top right section
+	if(g.snake.pos[0][0] > 38 &&
+			g.snake.pos[0][0] < g.gridDim-5 &&
+			g.snake.pos[0][1] > 12 &&
+			g.snake.pos[0][1] < g.gridDim-38){
+		if(g.snake.pos[0][1] > 12){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 43 &&
+			g.snake.pos[0][0] < g.gridDim-5 &&
+			g.snake.pos[0][1] > 12 &&
+			g.snake.pos[0][1] < g.gridDim-37){
+		if(g.snake.pos[0][1] < g.gridDim-37){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 48 &&
+			g.snake.pos[0][0] < g.gridDim-5 &&
+			g.snake.pos[0][1] > 12 &&
+			g.snake.pos[0][1] < g.gridDim-35){
+		if(g.snake.pos[0][1] < g.gridDim-35){
+			g.gameover=1;
+			return;
+		}
+	}
+	//top middle area
+	if(g.snake.pos[0][0] > 20 &&
+			g.snake.pos[0][0] < g.gridDim-25 &&
+			g.snake.pos[0][1] > 8 &&
+			g.snake.pos[0][1] < g.gridDim-48){
+		if(g.snake.pos[0][1] > 8){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 22 &&
+			g.snake.pos[0][0] < g.gridDim-25 &&
+			g.snake.pos[0][1] > 8 &&
+			g.snake.pos[0][1] < g.gridDim-45){
+		if(g.snake.pos[0][1] > 8){
+			g.gameover=1;
+			return;
+		}
+	}
+	if(g.snake.pos[0][0] > 25 &&
+			g.snake.pos[0][0] < g.gridDim-25 &&
+			g.snake.pos[0][1] > 8 &&
+			g.snake.pos[0][1] < g.gridDim-41){
+		if(g.snake.pos[0][1] > 8){
 			g.gameover=1;
 			return;
 		}
