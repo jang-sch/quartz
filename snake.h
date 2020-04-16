@@ -187,11 +187,13 @@ struct Global {
 	ALuint alSourceDrip, alSourceTick;
 	Global() {
 		// JG: 2020-04-07 - changed window start size
-        xres = 900;
-		yres = 900;
+		// JG: 2020-04-15 - made window launch smaller for uniformity
+        xres = 700;
+		yres = 700;
         // gridDim aka grid dimension
 		// JG: 2020-04-07 - adjusted size of grid to be playable area 
-        gridDim = 72;
+		// JG: 2020-04-15 - more adjustments
+        gridDim = 60;
 		gameover = 0;
 		winner = 0;
 		nbuttons = 0;
