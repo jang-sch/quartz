@@ -479,7 +479,7 @@ void init()
 	g.button[g.nbuttons].r.height = 25;
 	//g.button[g.nbuttons].r.left = 10; - original
 	//g.button[g.nbuttons].r.bot = 320; - original
-	g.button[g.nbuttons].r.left = 575;
+	g.button[g.nbuttons].r.left = 410;
 	g.button[g.nbuttons].r.bot = 25;
 	g.button[g.nbuttons].r.right =
 		g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
@@ -509,7 +509,7 @@ void init()
 	g.button[g.nbuttons].r.height = 25;
 	//g.button[g.nbuttons].r.left = 10; - original 
 	//g.button[g.nbuttons].r.bot = 160; - original
-	g.button[g.nbuttons].r.left = 725;
+	g.button[g.nbuttons].r.left = 580;
 	g.button[g.nbuttons].r.bot = 25;
 	g.button[g.nbuttons].r.right =
 		g.button[g.nbuttons].r.left + g.button[g.nbuttons].r.width;
@@ -743,6 +743,14 @@ void physics(void)
 	//is shown at the end of the game if the user decides to restart
 	//the game after the game is over
 	if(currentScreen == GAMEOVER){
+	    clock_gettime(CLOCK_REALTIME, &snakeTime);
+	}
+	//TS: 2020-04-15 the game wont start at the credits screen
+	if(currentScreen == CREDITS){
+	    clock_gettime(CLOCK_REALTIME, &snakeTime);
+	}
+	//TS: 2020-04-15 the game wont start at the controls screen
+	if(currentScreen == CONTROLS){
 	    clock_gettime(CLOCK_REALTIME, &snakeTime);
 	}
 	struct timespec tt;
