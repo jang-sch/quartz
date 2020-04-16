@@ -60,6 +60,8 @@
 // game runs out of time
 // TS: 2020-04-13 - added a testing credits image for the credits
 // page
+// TS:2020-04-13 - added a testing controls image for the controls
+// page
 Image img[6] = {
 	"./images/Game_Map.png",
 	"./images/mainMenu.png",
@@ -583,6 +585,12 @@ int checkKeys(XEvent *e)
 			currentScreen = MENU;
 		    }
 		    break;
+		//TS:2020-04-15 the user will press m from the game over
+		//screen and it will go back to the main menu
+		case XK_m:
+		    if(currentScreen == GAMEOVER)
+			currentScreen = MENU;
+		    break;
 		case XK_equal:
 			g.snake.delay *= 0.9;
 			if (g.snake.delay < 0.001)
@@ -617,9 +625,14 @@ int checkKeys(XEvent *e)
 		//go to the game screen from the main menu; fixed
 		//the code in the physics() function so the game 
 		//no longer starts when the menu is showing.
+		//TS:2020-04-15 added to where you can push enter
+		//from the gameover screen to go back to the game
 		case XK_Return:
 			if(currentScreen == MENU)
 				currentScreen = GAME;
+			else if(currentScreen != GAME && currentScreen != CREDITS && currentScreen != MENU && currentScreen != CONTROLS){
+			    currentScreen = GAME;
+			}
 			break;
 		case XK_Escape:
 			return 1;		
@@ -725,6 +738,12 @@ void physics(void)
 	if (currentScreen == MENU) {
 		//firsttime=0; - original code
 		clock_gettime(CLOCK_REALTIME, &snakeTime);
+	}
+	//TS: 2020-04-15 the game wont start when the game over screen 
+	//is shown at the end of the game if the user decides to restart
+	//the game after the game is over
+	if(currentScreen == GAMEOVER){
+	    clock_gettime(CLOCK_REALTIME, &snakeTime);
 	}
 	struct timespec tt;
 	clock_gettime(CLOCK_REALTIME, &tt);
@@ -1089,8 +1108,11 @@ void render(void)
 	 }
 	 //TS:2020-04-13 when the timer gets to 0 the gameover screen 
 	 //will show
+	 //TS:2020-04-14 fixed the issue so the user can go back to main menu
+	 //or either restart the game
          if(g.framesRemaining == 0){
            currentScreen = GAMEOVER;
+           resetGame();
 	 }
 
         //TS:2020-04-08 - load to check the gamestate
