@@ -62,13 +62,14 @@
 // page
 // TS:2020-04-13 - added a testing controls image for the controls
 // page
+// DC: 2020-04-16 - updated controls screen
 Image img[6] = {
 	"./images/Game_Map.png",
 	"./images/mainMenu.png",
 	"./images/testItem.png",
 	"./images/gameOver.png",
 	"./images/Credits.png" ,
-	"./images/Controls.png"
+	"./images/Game_Controls.png"
 };
 
 
@@ -1501,21 +1502,11 @@ void render(void)
 		glVertex2i(cent[0]+3, cent[1]+4);
 		glVertex2i(cent[0]+3, cent[1]-3);
 		glEnd();
-		//
-		//
-		// JAN
-
-		
-
-
-
-		// END JAN
-		
-		
+	
 		//r.left   = g.xres/2;
 		//r.bot    = g.yres-100;
 		//r.center = 1;
-		
+
 		//TS: 2020-04-08 - changed the title of game and allowed to show
 		//user the number of items collected, and the number of points
 		// JG: 2020-04-07 - added scorekeeping, depends on item rarity; font color
