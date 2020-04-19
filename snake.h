@@ -154,7 +154,7 @@ struct Global {
 	GLuint creditsScreen;
 	//TS: 2020-04-14 OpenGL data member for storing image information
 	GLuint controlsScreen;
-	// JG:
+	// JG: 2020-04-15 - OpenGL data member for storing item image info
 	GLuint itemTexture;
 	//TS: 2020-04-11 timeRemaining variable
 	//TS:2020-04-12 changed timeRemaining variable and

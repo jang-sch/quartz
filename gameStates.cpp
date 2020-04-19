@@ -96,8 +96,7 @@ void renderControlsScreen(Global &g)
 }
 
 
-// JG: 2020-04-15 - setting up spawning of item sprite
-
+// JG: 2020-04-15 - setting up needed fx for spawning of transparent item
 unsigned char *buildAlphaData(Image *img)
 {
 	//add 4th component to RGB stream...
@@ -123,6 +122,7 @@ unsigned char *buildAlphaData(Image *img)
 	return newdata;
 }
 
+// JG: 2020-04-15 - function to render the spawned item.
 void renderItem(Global &g)
 {   
     /* Attempt at making uncolored parts transparent

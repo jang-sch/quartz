@@ -19,7 +19,7 @@
 // . Credits page
 // . Main menu (DONE 4/8/2020)
 // . Snake texture
-// . Rat texture
+// . Rat texture --> working on it; aka item texture
 // . Levels
 // . Changes in difficulty/speed
 // . Scoring (IN PROGRESS 2020-04-09)
@@ -199,6 +199,8 @@ void playSound(ALuint source);
 #endif //USE_OPENAL_SOUND
 //TS: 2020-04-08 functions for rendering menu
 extern void renderMenu(Global &);
+//JG: 2020-04-15 - function prototype for render item
+extern void renderItem(Global &);
 extern void rateFixReset();
 //TS: 2020-04-11 function for a timer to display on
 //screen
@@ -385,7 +387,9 @@ void initOpengl(void)
 	glGenTextures(1, &g.creditsScreen);
 	//TS: 2020-04-14 openGL texture for the controls page
 	glGenTextures(1, &g.controlsScreen);
-	
+	//JG: 2020-04-15 - openGL texture for spawn item
+	glGenTextures(1, &g.itemTexture);
+
 	glBindTexture(GL_TEXTURE_2D, g.mapTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
@@ -431,10 +435,12 @@ void initOpengl(void)
         glTexImage2D(GL_TEXTURE_2D, 0, 3, img[5].width, img[5].height, 0,
                         GL_RGB, GL_UNSIGNED_BYTE, img[5].data);
 
-
-
-
-
+		//JG: 2020-04-15 - load spawn item texture and save data 
+		glBindTexture(GL_TEXTURE_2D, g.itemTexture);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, img[2].width, img[2].height, 0,
+                        GL_RGB, GL_UNSIGNED_BYTE, img[2].data);
 }
 
 // JG: 2020-04-07 - changed starting position of snake
@@ -1418,6 +1424,10 @@ void render(void)
 		 
 
 		//
+
+		// JG: 2020-04-15 - rendering our collectible item
+		renderItem(g);
+
 		//grid lines...
 		int x0 = s0-b2;
 		int x1 = s0+b2;
@@ -1505,6 +1515,7 @@ void render(void)
 		//r.left   = g.xres/2;
 		//r.bot    = g.yres-100;
 		//r.center = 1;
+		
 		//TS: 2020-04-08 - changed the title of game and allowed to show
 		//user the number of items collected, and the number of points
 		// JG: 2020-04-07 - added scorekeeping, depends on item rarity; font color
