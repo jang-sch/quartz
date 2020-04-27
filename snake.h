@@ -49,6 +49,12 @@ typedef struct t_rat {
 	int status;
 	int pos[2];
 } Rat;
+
+typedef struct t_item {
+	int status;
+	int pos[2];
+	int size = 30;
+} Item;
 //
 //
 //
@@ -145,6 +151,8 @@ struct Global {
 	Grid grid[MAX_GRID][MAX_GRID];
 	Snake snake;
 	Rat rat;
+	// JG: 2020-04-27 - creating item
+	Item item;
 	int gridDim;
         //TS: 2020-04-08 OpenGL data member for storing image information	
 	GLuint gameMenu;

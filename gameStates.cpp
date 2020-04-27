@@ -122,6 +122,30 @@ unsigned char *buildAlphaData(Image *img)
 	return newdata;
 }
 
+void getGridCenter2(Global & g, const int i, const int j, int cent[2])
+{
+    //This function can be optimized, and made more generic.
+    int b2 = g.boardDim/2;
+    int screenCenter[2] = {g.xres/2, g.yres/2};
+    int s0 = screenCenter[0];
+    int s1 = screenCenter[1];
+    int bq;
+    //quad upper-left corner
+    int quad[2];
+    //bq is the width of one grid section
+    bq = (g.boardDim / g.gridDim);
+    //-------------------------------------
+    //because y dimension is bottom-to-top in OpenGL.
+    int i1 = g.gridDim - i - 1;
+    quad[0] = s0-b2;
+    quad[1] = s1-b2;
+    cent[0] = quad[0] + bq/2;
+    cent[1] = quad[1] + bq/2;
+    cent[0] += (bq * j);
+    cent[1] += (bq * i1);
+}
+
+
 // JG: 2020-04-15 - function to render the spawned item.
 void renderItem(Global &g)
 {   
@@ -150,11 +174,18 @@ void renderItem(Global &g)
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, g.itemTexture);
 
+    // JG: 2020-04-27 - adding item spawn flexible location based on center
+    int cent[2];
+    getGridCenter2(g, g.item.pos[1],g.item.pos[0],cent);
+    int itemSize = g.item.size;
+    int halfItemSize = itemSize / 2;
+    
+    // JG: 2020-04-27 - changed how positions are determined, flexibility
     glBegin(GL_QUADS);
-    glTexCoord2f(0, 1); glVertex2i(0, 0);
-    glTexCoord2f(0, 0); glVertex2i(0, 15);
-    glTexCoord2f(1, 0); glVertex2i(15, 15);
-    glTexCoord2f(1, 1); glVertex2i(15, 0);
+    glTexCoord2f(0, 1); glVertex2i(cent[0]-halfItemSize, cent[1]-halfItemSize);
+    glTexCoord2f(0, 0); glVertex2i(cent[0]-halfItemSize, cent[1]+halfItemSize);
+    glTexCoord2f(1, 0); glVertex2i(cent[0]+halfItemSize, cent[1]+halfItemSize);
+    glTexCoord2f(1, 1); glVertex2i(cent[0]+halfItemSize, cent[1]-halfItemSize);
     glEnd();
 
     glPopMatrix();

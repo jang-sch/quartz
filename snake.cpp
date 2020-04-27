@@ -468,6 +468,14 @@ void initRat()
 	g.rat.pos[1] = 10;
 }
 
+// JG: 2020-04-27 - similar to original "rat"
+void initItem()
+{
+	g.item.status = 1;
+	g.item.pos[0] = 25;
+	g.item.pos[1] = 20;
+}
+
 void init()
 {
 	// JG: why * 10?
@@ -475,6 +483,7 @@ void init()
 	//
 	initSnake();
 	initRat();
+	initItem(); // JG: 2020-04-27
 	//
 	//initialize buttons...
 	g.nbuttons=0;
