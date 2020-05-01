@@ -65,9 +65,9 @@
 // DC: 2020-04-16 - updated controls screen
 Image img[6] = {
 	"./images/Game_Map.png",
-	"./images/mainMenu.png",
+	"./images/GameMainMenu.png",
 	"./images/testItem.png",
-	"./images/gameOver.png",
+	"./images/GameOverF.png",
 	"./images/Credits.png" ,
 	"./images/Game_Controls.png"
 };
