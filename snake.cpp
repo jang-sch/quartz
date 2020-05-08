@@ -63,12 +63,14 @@
 // TS:2020-04-13 - added a testing controls image for the controls
 // page
 // DC: 2020-04-16 - updated controls screen
+// DC: 2020-04-30 - Added the update main menu and game over screen 
+// DC: 2020-05-07 - Added the credits screen to the credit function
 Image img[6] = {
 	"./images/Game_Map.png",
 	"./images/GameMainMenu.png",
 	"./images/testItem.png",
 	"./images/GameOverF.png",
-	"./images/Credits.png" ,
+	"./images/Game_Credits.png" ,
 	"./images/Game_Controls.png"
 };
 
