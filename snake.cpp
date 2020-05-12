@@ -350,9 +350,11 @@ void cleanupSound()
 	//First delete the source.
 	alDeleteSources(1, &g.alSourceDrip);
 	alDeleteSources(1, &g.alSourceTick);
+	alDeleteSources(1, &g.alSourceSong);
 	//Delete the buffer.
 	alDeleteBuffers(1, &g.alBufferDrip);
 	alDeleteBuffers(1, &g.alBufferTick);
+	alDeleteBuffers(1, &g.alBufferSong);
 	//Close out OpenAL itself.
 	//Get active context.
 	ALCcontext *Context = alcGetCurrentContext();
