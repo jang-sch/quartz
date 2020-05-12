@@ -192,9 +192,9 @@ struct Global {
 	int nbuttons;
 	//
 
-
-	ALuint alBufferDrip, alBufferTick;
-	ALuint alSourceDrip, alSourceTick;
+	// JG: 2020-05-12 addded variables for sountrack song :)
+	ALuint alBufferDrip, alBufferTick, alBufferSong;
+	ALuint alSourceDrip, alSourceTick, alSourceSong;
 	Global() {
 		// JG: 2020-04-07 - changed window start size
 		// JG: 2020-04-15 - made window launch smaller for uniformity

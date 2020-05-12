@@ -234,6 +234,8 @@ int main(int argc, char *argv[])
 	// TS: 2020-04-08 Sets the current screen to the main menu
 	currentScreen = MENU;
 	g.gameSelect = 1;
+	// JG: 2020-05-12 playing with sound
+	playSound(g.alSourceSong);
 	
 	//Edit the window size here so menu can render properly
 	x11.reshapeWindow(1300,1300);
@@ -298,10 +300,25 @@ void initSound()
 	alListenerf(AL_GAIN, 1.0f);
 	//
 	//Buffer holds the sound information.
+	// JG: 2020-05-12 - adding sound information for custom song
+	g.alBufferSong = alutCreateBufferFromFile("./sounds/wild-goose-chase.wav");
 	g.alBufferDrip = alutCreateBufferFromFile("./sounds/drip.wav");
 	g.alBufferTick = alutCreateBufferFromFile("./sounds/tick.wav");
 	//
-	//Source refers to the sound.
+	//Source refers to the sound.----------------------
+	
+	// JG: 2020-05-12 - Generate a source, and store it in a buffer , for song.
+	alGenSources(1, &g.alSourceSong);
+	alSourcei(g.alSourceSong, AL_BUFFER, g.alBufferSong);
+	//Set volume and pitch to normal, no looping of sound.
+	alSourcef(g.alSourceSong, AL_GAIN, 1.0f);
+	alSourcef(g.alSourceSong, AL_PITCH, 1.0f);
+	alSourcei(g.alSourceSong, AL_LOOPING, AL_TRUE);
+	if (alGetError() != AL_NO_ERROR) {
+		printf("ERROR: setting source\n");
+		return;
+	}
+
 	//Generate a source, and store it in a buffer.
 	alGenSources(1, &g.alSourceDrip);
 	alSourcei(g.alSourceDrip, AL_BUFFER, g.alBufferDrip);

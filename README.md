@@ -23,3 +23,5 @@ sudo apt install libglu1-mesa-dev
 
 sudo apt-get install git curl libsdl2-mixer-2.0-0 libsdl2-image-2.0-0 libsdl2-2.0-0
 
+#### FAQ/INFO:
+Use 'escape' key to exit game.
