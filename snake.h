@@ -215,7 +215,7 @@ struct Global {
 	//TS:2020-04-12 changed the name from timeRemaining to framesRemaining
 	//for more clarity and dividing the framesRemaining and to store it into
 	//timeRemaining to display the correct amount of seconds on the screen
-		framesRemaining = 2000;
+		framesRemaining = 2200;
 		timeRemaining = framesRemaining/60;
 	}
 };

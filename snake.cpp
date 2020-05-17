@@ -700,7 +700,7 @@ void resetGame()
 	// JG: 2020-05-16 - adjusted to have 33 seconds of time to 
 	// the game upon reset. To adjust time upon start of game
 	// need to change variable "timeRemaining" in snake.h
-	g.framesRemaining = 2000;
+	g.framesRemaining = 2200;
 }
 
 int checkKeys(XEvent *e)
@@ -1518,7 +1518,8 @@ void physics(void)
 
 void render(void)
 {
-	int i,j;
+	//int i,j;
+	int i;
 	Rect r;
         //TS: 2020-04-11 - to make sure the countdown works correctly 
         //and does not go into the negatives
@@ -1564,13 +1565,14 @@ void render(void)
 	//ELSE then the game will the gaming screen
 	else if (currentScreen == GAME) {
 
-		//--------------------------------------------------------
+		// JG: 2020-05-16 - commented out unused gridline variables.
 		//This code is repeated several times in this program, so
 		//it can be made more generic and cleaner with some work.
-		int b2 = g.boardDim/2;
-		int s0 = g.xres>>1;
-		int s1 = g.yres>>1;
+		//int b2 = g.boardDim/2;
+		//int s0 = g.xres>>1;
+		//int s1 = g.yres>>1;
 		//center of a grid
+
 		int cent[2];
 		//bq is the width of one grid section
 		//--------------------------------------------------------
@@ -1655,9 +1657,9 @@ void render(void)
 
 		// JG: 2020-04-15 - rendering our collectible item
 		renderItem(g);
-
+		// JG: 2020-05-16 - removed grid lines to see beautiful map.
 		//grid lines...
-		int x0 = s0-b2;
+		/*int x0 = s0-b2;
 		int x1 = s0+b2;
 		int y0 = s1-b2;
 		int y1 = s1+b2;
@@ -1680,7 +1682,7 @@ void render(void)
 			glVertex2i(x0,y0);
 			glVertex2i(x0,y1);
 		}
-		glEnd();
+		glEnd();*/
 		//
 #define COLORFUL_SNAKE
 		//
