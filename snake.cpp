@@ -692,6 +692,7 @@ void resetGame()
 	// JG: 2020-05-16 to initialize item to be collected, reset item counter.
 	initItem();
 	g.collCount = 0;
+	g.totalScore = 0;
 	g.gameover  = 0;
 	g.winner    = 0;
 	//TS:2020-04-11 - when reseting the game the time restarts
@@ -1383,14 +1384,84 @@ void physics(void)
 		//yes, increase length of snake.
 		playSound(g.alSourceTick);
 		//put new segment at end of snake.
-		Log("snake ate rat. snake.length: %i   dir: %i\n",
-				g.snake.length,g.snake.direction);
+		//Log("snake ate rat. snake.length: %i   dir: %i\n",
+				//g.snake.length,g.snake.direction);
 
 		// JG: 2020-04-07 - when treasure collected, it follows you now (?)
 		// changed it to add length by 2 to accomodate for space. Also
 		// set up PSEUDOCODE for item scoring based on rarity of item.
+		// JG: 2020-05-16 - There was no time to make item follow you,
+		// so instead this common item penalizes you by adding 'tail' clutter.
 		int addlength = 2;
 
+		//TS: 2020-04-07 added a counter to count when
+		//the snake collects the item
+		// JG: 2020-04-07 - worked with TS to make collected item counter 
+		// count correctly.
+		g.collCount++;
+		// JG: 2020-05-17 - keeping track of score!
+		g.totalScore += g.COMMON_I;
+		for (i=0; i<addlength; i++) {
+			g.snake.pos[g.snake.length][0] = g.snake.pos[g.snake.length-1][0];
+			g.snake.pos[g.snake.length][1] = g.snake.pos[g.snake.length-1][1];
+			g.snake.length++;
+		}
+		//new position for rat...
+		int collision=0;
+		int ntries=0;
+		while (1) {
+			// JG: 2020-05-16 - obtain random number to obtain index of random
+			// set of valid coordinates within the vSpawn array.
+			g.randIndex = rand() % vSpwnLen;
+			g.rat.pos[0] = vSpawn[g.randIndex][0];
+			g.rat.pos[1] = vSpawn[g.randIndex][1];
+			// JG: 2020-05-16 - want to randomly place EPIC item elsewhere too.
+			// epic item is reshuffled everytime the common item is picked up.
+			g.randIndex = rand() % vSpwnLen;
+			g.item.pos[0] = vSpawn[g.randIndex][0];
+			g.item.pos[1] = vSpawn[g.randIndex][1];
+
+			collision=0;
+			for (i=0; i<g.snake.length; i++) {
+				if (g.rat.pos[0] == g.snake.pos[i][0] &&
+						g.rat.pos[1] == g.snake.pos[i][1]) {
+					collision=1;
+					break;
+				}
+			}
+			if (!collision) break;
+			if (++ntries > 1000000) break;
+		}
+		// JG: 2020-05-17 - removing creation of log
+		// Log("new rat: %i %i\n",g.rat.pos[0],g.rat.pos[1]);
+		return;
+	} else if ((headpos[0] == g.item.pos[0] && headpos[1] == g.item.pos[1])||
+		(headpos[0] == g.item.pos[0] - 1 && headpos[1] == g.item.pos[1] - 1)||
+		(headpos[0] == g.item.pos[0] && headpos[1] == g.item.pos[1] - 1)||
+		(headpos[0] == g.item.pos[0] - 1 && headpos[1] == g.item.pos[1] - 1)||
+		(headpos[0] == g.item.pos[0] + 1 && headpos[1] == g.item.pos[1] - 1)||
+		(headpos[0] == g.item.pos[0] - 1 && headpos[1] == g.item.pos[1])||
+		(headpos[0] == g.item.pos[0] + 1 && headpos[1] == g.item.pos[1])||
+		(headpos[0] == g.item.pos[0] - 1 && headpos[1] == g.item.pos[1] + 1)||
+		(headpos[0] == g.item.pos[0] && headpos[1] == g.item.pos[1] + 1)||
+		(headpos[0] == g.item.pos[0] + 1 && headpos[1] == g.item.pos[1] + 1)) {
+		//yes, increase length of snake.
+		playSound(g.alSourceTick);
+		//put new segment at end of snake.
+		
+		// JG: 2020-05-17 - removing creation of log
+		// Log("snake ate rat. snake.length: %i   dir: %i\n",
+				//g.snake.length,g.snake.direction);
+
+		// JG: 2020-04-07 - when treasure collected, it follows you now (?)
+		// changed it to add length by 2 to accomodate for space. Also
+		// set up PSEUDOCODE for item scoring based on rarity of item.
+		// JG: 2020-05-17 - rewarded by no tail clutter for eating epic item
+		// and by satiating a need for speed.
+		int addlength = 0;
+		g.snake.delay *= 0.9;
+		if (g.snake.delay < 0.001)
+				g.snake.delay = 0.001;
 		/* JG: 2020-04-07 - pseudocode
 		   if (itemRarity == 1)
 		   totalScore += common
@@ -1413,6 +1484,7 @@ void physics(void)
 		// JG: 2020-04-07 - worked with TS to make collected item counter 
 		// count correctly.
 		g.collCount++;
+		g.totalScore += g.LEGENDARY_I;
 		for (i=0; i<addlength; i++) {
 			g.snake.pos[g.snake.length][0] = g.snake.pos[g.snake.length-1][0];
 			g.snake.pos[g.snake.length][1] = g.snake.pos[g.snake.length-1][1];
@@ -1424,9 +1496,9 @@ void physics(void)
 		while (1) {
 			// JG: 2020-05-16 - obtain random number to obtain index of random
 			// set of valid coordinates within the vSpawn array.
-			int randIndex = rand() % vSpwnLen;
-			g.rat.pos[0] = vSpawn[randIndex][0];
-			g.rat.pos[1] = vSpawn[randIndex][1];
+			g.randIndex = rand() % vSpwnLen;
+			g.item.pos[0] = vSpawn[g.randIndex][0];
+			g.item.pos[1] = vSpawn[g.randIndex][1];
 			collision=0;
 			for (i=0; i<g.snake.length; i++) {
 				if (g.rat.pos[0] == g.snake.pos[i][0] &&
@@ -1438,7 +1510,8 @@ void physics(void)
 			if (!collision) break;
 			if (++ntries > 1000000) break;
 		}
-		Log("new rat: %i %i\n",g.rat.pos[0],g.rat.pos[1]);
+		// JG: 2020-05-17 - removing creation of log
+		// Log("new rat: %i %i\n",g.rat.pos[0],g.rat.pos[1]);
 		return;
 	}
 }

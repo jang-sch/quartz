@@ -192,6 +192,30 @@ void renderItem(Global &g)
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+    
+// JG: 2020-05-17 - render rare item
+void renderRareItem(Global &g)
+{   
+    glColor3f(1.0, 1.0, 1.0);
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, g.itemTexture);
+
+    int cent[2];
+    getGridCenter2(g, g.item.pos[1],g.item.pos[0],cent);
+    int itemSize = g.item.size;
+    int halfItemSize = itemSize / 2;
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 1); glVertex2i(cent[0]-halfItemSize, cent[1]-halfItemSize);
+    glTexCoord2f(0, 0); glVertex2i(cent[0]-halfItemSize, cent[1]+halfItemSize);
+    glTexCoord2f(1, 0); glVertex2i(cent[0]+halfItemSize, cent[1]+halfItemSize);
+    glTexCoord2f(1, 1); glVertex2i(cent[0]+halfItemSize, cent[1]-halfItemSize);
+    glEnd();
+
+    glPopMatrix();
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 
 //TS:2020-04-08 fixes jitters when a key is pressed
 void rateFixReset()

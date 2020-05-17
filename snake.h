@@ -178,6 +178,7 @@ struct Global {
     //TS: 2020-04-07 added a count function for the items collected
     //JG: 2020-04-07 - changed variable name for clarity
 	int collCount = 0;
+	int randIndex;
     //JG: 2020-04-07 - added variableS to calculate and keep score
     const int COMMON_I = 5;
 	const int UNCOMMON_I = 10;
