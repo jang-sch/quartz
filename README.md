@@ -34,6 +34,9 @@ and once you get caught it is game over!
 * Credit to artist assests listed in 'images/Game_Credits.png'
 * See our Packages/Libraries Used section
 * We used the snake game framework from provided class frameworks
+* Check out the 'Wiki' tab. We have several pages we used during planning. 
+  * Possible Art Sources: https://github.com/jang-sch/quartz/wiki/Possible-Art-Sources
+  * Original Timeline: https://github.com/jang-sch/quartz/wiki/Timeline
 
 #### Packages/Libraries Used
 * ```sudo apt-get install imagemagick```
