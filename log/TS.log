@@ -1,0 +1,44 @@
+Tiara Smith's log
+changes in code:
+2020-04-15: added where the user will be able to press m from the game over 
+screen and it will go back to the main menu in snake.cpp
+2020-04-15: added where the user will be able to press enter from the game
+over screen to go back into the game in snake.cpp
+2020-04-14: fixed an issue so the user can either go back to main menu
+or either restart the game in snake.cpp
+2020-04-14: created an IF loop to show that if the current screen is 
+ControlsScreen then it will render it in snake.cpp
+2020-04-14: created an IF loop to show that if the current screen is 
+CreditsScreen then it will render it in snake.cpp
+2020-04-14: created an extern void to render the CreditsScreen and the 
+ControlsScreen in snake.cpp
+2020-04-14: added gameover as an enumerated type for gamestate in snake.h
+2020-04-14: added credits as an enumerated type for gamestate in snake.h
+2020-04-14: added controls as an enumerated type for gamestate in snake.h
+2020-04-14: added an OpenGl data member for storing info for gamover screen in snake.h
+2020-04-14: added an OpenGl data member for storing info for credits screen in snake.h
+2020-04-14: added an OpenGl data member for storing info for controls screen in snake.h
+2020-04-13: added render gameover screen function in gameStates.cpp
+2020-04-13: added render credits screen function in gameStates.cpp
+2020-04-13: added render controls screen function in gameStates.cpp
+2020-04-12: changed timeRemaining variable and added framesRemaining in snake.h
+2020-04-12: in snake.h changed the name from timeRemaining to framesRemaining for more clarity 
+and dividing the framesRemaining to store it into timeRemaining to display the correct amount of seconds to
+the user 
+2020-04-11: added to show the remaining time to the player in snake.cpp
+2020-04-11: in resetGame() the time will restart when the game is reset located in snake.h
+2020-04-11: in gameStates.cpp created a function to decrement the time
+2020-04-11: in snake.h created a function for the remaining time
+2020-04-08: added a testing main menu image in snake.cpp
+2020-04-08: added an endGame() function in snake.cpp to end the game when the button is pushed
+2020-04-08: added an extern void renderMenu() function to render the main menu
+2020-04-08: in the main of snake.cpp setting the current gameState to Menu
+2020-04-08: added to load the main menu in snake.cpp
+2020-04-08: changd the height, width, and location of the buttons in snake.cpp 
+2020-04-08: the game will end when the button is pressed instead of saying "button is pressed" in snake.cpp
+2020-04-08: the button no longer has the yellow outline when the mouse is hovering over it in snake.cpp
+2020-04-08: changed the title of the screen in snake.cpp
+2020-04-08: fixed any jitters when a key is pressed on the keyboard
+2020-04-08: created a folder just for the gameStates
+
+
