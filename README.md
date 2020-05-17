@@ -33,6 +33,7 @@ and once you get caught it is game over!
 * Our images/ contains some of our drafts and 'notes' for game's image-related implementation.
 * Credit to artist assests listed in 'images/Game_Credits.png'
 * See our Packages/Libraries Used section
+* We used the snake game framework from provided class frameworks
 
 #### Packages/Libraries Used
 * ```sudo apt-get install imagemagick```
