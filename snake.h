@@ -53,7 +53,7 @@ typedef struct t_rat {
 typedef struct t_item {
 	int status;
 	int pos[2];
-	int size = 30;
+	int size = 20;
 } Item;
 //
 //
@@ -214,7 +214,7 @@ struct Global {
 	//TS:2020-04-12 changed the name from timeRemaining to framesRemaining
 	//for more clarity and dividing the framesRemaining and to store it into
 	//timeRemaining to display the correct amount of seconds on the screen
-		framesRemaining = 1000;
+		framesRemaining = 2000;
 		timeRemaining = framesRemaining/60;
 	}
 };
