@@ -29,6 +29,7 @@ and once you get caught it is game over!
 
 #### Notes
 * See our 'Projects' tab on GitHub to track our to-do cards and planning/tracking process.
+  * https://github.com/jang-sch/quartz/projects/1
 * Use 'escape' key to exit game.
 * Our images/ contains some of our drafts and 'notes' for game's image-related implementation.
 * Credit to artist assests listed in 'images/Game_Credits.png'
