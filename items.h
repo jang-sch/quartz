@@ -1,4 +1,5 @@
-//Jan G 2020-04-10 
+// Jan G 2020-04-10 : this file was not used, item code was distributed into 
+// snake.cpp, snake.h, and gameStates.cpp
 //file for spawn items definitions/classes 
 
 #pragma once // what does this mean??
