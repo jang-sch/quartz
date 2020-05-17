@@ -17,7 +17,7 @@ and once you get caught it is game over!
 * You have to race against the clock! You are given 36 seconds to collect as much as you can!
 * You pick up the fish or the small red apple or get points!
 * Picking up the red apple gives you a trail, reshuffles where the fish goes, and spawns new apple!
-* Picking up the legendary fish makes you go faster and gives bonus points!!!
+* Picking up the fish makes you go faster and gives bonus points!!!
 
 ### More Information:
 
